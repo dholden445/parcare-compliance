@@ -232,15 +232,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
       <div class="fl"><label>Role</label><select id="e-role"><option>Staff</option><option>Clinical Staff</option><option>Provider</option><option>Site Manager</option><option>Manager</option><option>HR</option><option>Compliance</option><option>QI Staff</option><option>Admin</option></select></div>
       <div class="fl"><label>Start date</label><input type="date" id="e-start"></div>
       <div class="fl"><label>Email</label><input type="text" id="e-email" placeholder="employee@parcare.org"></div>
-      <div class="fa"><button class="btn" onclick="closeM('emp-modal')">Cancel</button><button class="btn pri" onclick="addEmp()">Add employee</button></div>
+      <div class="fa"><button class="btn" data-action="close-emp-modal">Cancel</button><button class="btn pri" data-action="add-emp">Add employee</button></div>
     </div>
   </div>
   <div class="tbar">
-    <input type="text" placeholder="Search employees..." oninput="filterEmp(this.value)" style="max-width:200px">
-    <select onchange="filterEmpDept(this.value)" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+    <input type="text" placeholder="Search employees..." id="emp-search" style="max-width:200px">
+    <select id="emp-dept-filter" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
       <option value="">All departments</option><option>Clinical / Medical</option><option>Quality Improvement</option><option>HR / Operations</option><option>Compliance</option><option>Site Operations</option>
     </select>
-    <button class="btn pri" onclick="openM('emp-modal')">Add employee</button>
+    <button class="btn pri" data-action="open-emp-modal">Add employee</button>
   </div>
   <div id="emp-list"></div>
 </div>
@@ -264,12 +264,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
       <div class="fl"><label>Due date</label><input type="date" id="lms-due"></div>
       <div class="fl"><label>Delivery method</label><select><option>Online video (self-paced)</option><option>In-person session</option><option>Live webinar</option><option>Document read &amp; sign</option></select></div>
       <div class="fl"><label>Notes</label><textarea placeholder="Optional notes..."></textarea></div>
-      <div class="fa"><button class="btn" onclick="closeM('lms-modal')">Cancel</button><button class="btn pri" onclick="closeM('lms-modal')">Assign training</button></div>
+      <div class="fa"><button class="btn" data-action="close-lms-modal">Cancel</button><button class="btn pri" data-action="close-lms-modal">Assign training</button></div>
     </div>
   </div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div style="font-size:12px;color:var(--text-secondary)">Assign, track, and manage all required trainings</div>
-    <button class="btn pri" onclick="openM('lms-modal')">Assign training</button>
+    <button class="btn pri" data-action="open-lms-modal">Assign training</button>
   </div>
   <div id="lms-list"></div>
 </div>
@@ -282,8 +282,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:16px" id="tr-summary"></div>
   <div class="card">
     <div class="tbar">
-      <input type="text" placeholder="Search staff..." oninput="filterTrStaff(this.value)" style="max-width:180px">
-      <select onchange="filterTrCol(this.value)" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+      <input type="text" placeholder="Search staff..." id="tr-staff-search" style="max-width:180px">
+      <select id="tr-col-filter" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
         <option value="">All trainings</option>
         <option>HIPAA</option><option>Active Shooter</option><option>HIV Consent</option><option>Inf. Control</option><option>Wkpl Violence</option><option>FWA</option><option>Sex. Harass.</option><option>Emerg. Prep.</option><option>Pt Rights</option><option>Human Traffick.</option><option>Mand. Reporter</option>
       </select>
@@ -302,12 +302,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
       <div class="fl"><label>Due date</label><input type="date" id="tk-due"></div>
       <div class="fl"><label>Requires upload?</label><select id="tk-upload"><option value="yes">Yes &mdash; document upload required</option><option value="no">No &mdash; confirmation only</option></select></div>
       <div class="fl"><label>Notes</label><textarea id="tk-notes" placeholder="Instructions for assignee..."></textarea></div>
-      <div class="fa"><button class="btn" onclick="closeM('task-modal')">Cancel</button><button class="btn pri" onclick="createTask()">Assign task</button></div>
+      <div class="fa"><button class="btn" data-action="close-task-modal">Cancel</button><button class="btn pri" data-action="create-task">Assign task</button></div>
     </div>
   </div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div style="font-size:12px;color:var(--text-secondary)">Assign tasks &mdash; staff mark complete and upload documentation</div>
-    <button class="btn pri" onclick="openM('task-modal')">Assign new task</button>
+    <button class="btn pri" data-action="open-task-modal">Assign new task</button>
   </div>
   <div id="tasks-container"></div>
 </div>
@@ -315,7 +315,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 <div class="pg" id="pg-site">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div style="font-size:12px;color:var(--text-secondary)">Fire drills, safety tasks &mdash; Bay Parkway &middot; 16th Ave &middot; Williamsburg &middot; Rambam</div>
-    <button class="btn pri" onclick="openM('task-modal')">Assign site task</button>
+    <button class="btn pri" data-action="open-task-modal">Assign site task</button>
   </div>
   <div class="mets" style="grid-template-columns:repeat(3,minmax(0,1fr))">
     <div class="met"><div class="met-l">Fire drills completed</div><div class="met-v" id="drill-count" style="color:#BA7517">6/16</div><div class="pb" style="margin-top:6px"><div class="pf" id="drill-bar" style="width:37%;background:#BA7517"></div></div></div>
@@ -325,11 +325,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
   <div class="sec-t">Annual fire drill tracker &mdash; all 4 sites<span id="drill-summary" style="color:#BA7517">6/16 complete</span></div>
   <div class="drill-grid" id="drill-grid"></div>
   <div class="site-tabs">
-    <div class="stab active" onclick="switchSite('all',this)">All sites</div>
-    <div class="stab" onclick="switchSite('bp',this)">Bay Parkway</div>
-    <div class="stab" onclick="switchSite('16',this)">16th Ave</div>
-    <div class="stab" onclick="switchSite('wb',this)">Williamsburg</div>
-    <div class="stab" onclick="switchSite('rm',this)">Rambam</div>
+    <div class="stab active" data-site="all">All sites</div>
+    <div class="stab" data-site="bp">Bay Parkway</div>
+    <div class="stab" data-site="16">16th Ave</div>
+    <div class="stab" data-site="wb">Williamsburg</div>
+    <div class="stab" data-site="rm">Rambam</div>
   </div>
   <div id="site-all" class="site-pg on"></div>
   <div id="site-bp" class="site-pg"></div>
@@ -340,8 +340,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 
 <div class="pg" id="pg-docs">
   <div class="tbar">
-    <input type="text" placeholder="Search documents..." oninput="filterDocs(this.value)">
-    <select id="folder-filter" onchange="setDocFolder(this.value)" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+    <input type="text" placeholder="Search documents..." id="doc-search-input">
+    <select id="folder-filter" id="doc-folder-select" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
       <option value="">All folders</option><option>Clinical Policies</option><option>Board &amp; Governance</option><option>Quality &amp; QI</option><option>Compliance &amp; Audits</option><option>HR / Personnel</option><option>Site Records</option><option>Contracts &amp; Vendors</option><option>Incident Reports</option><option>Workflows</option>
     </select>
     <button class="btn pri">Upload</button>
@@ -366,18 +366,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 </div></div></div>
 
 <script>
-// Navigation - defined at window level for maximum compatibility
-window.nav = function(id, el) {
-  var pages = document.querySelectorAll('.pg');
-  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('on');
-  var navItems = document.querySelectorAll('.ni');
-  for (var i = 0; i < navItems.length; i++) navItems[i].classList.remove('active');
-  var target = document.getElementById('pg-' + id);
-  if (target) target.classList.add('on');
-  if (el) el.classList.add('active');
-  var titles = {dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
-  var titleEl = document.getElementById('ptitle');
-  if (titleEl) titleEl.textContent = titles[id] || id;
+(function() {
+
+// ── Core nav ────────────────────────────────────────────────────────────────
+var PAGES = {dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
+
+function nav(id) {
+  document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.ni').forEach(function(n){ n.classList.remove('active'); });
+  var pg = document.getElementById('pg-' + id);
+  if (pg) pg.classList.add('on');
+  var ni = document.querySelector('.ni[data-nav="' + id + '"]');
+  if (ni) ni.classList.add('active');
+  var t = document.getElementById('ptitle');
+  if (t) t.textContent = PAGES[id] || id;
   if (id === 'employees') renderEmp();
   if (id === 'lms') renderLMS();
   if (id === 'training') renderTraining();
@@ -385,36 +387,25 @@ window.nav = function(id, el) {
   if (id === 'site') { renderDrillGrid(); renderSiteAll(); }
   if (id === 'docs') renderDocs();
   if (id === 'comp') renderComp();
-};
-
-window.openM = function(id) { document.getElementById(id).classList.add('on'); };
-window.closeM = function(id) { document.getElementById(id).classList.remove('on'); };
-
-// Attach nav listeners after DOM is ready - multiple methods for compatibility
-function attachNav() {
-  var items = document.querySelectorAll('.ni[data-nav]');
-  for (var i = 0; i < items.length; i++) {
-    (function(el) {
-      el.onclick = function(e) {
-        e.preventDefault();
-        window.nav(el.getAttribute('data-nav'), el);
-      };
-    })(items[i]);
-  }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', attachNav);
-} else {
-  attachNav();
+function openM(id) { var el = document.getElementById(id); if(el) el.classList.add('on'); }
+function closeM(id) { var el = document.getElementById(id); if(el) el.classList.remove('on'); }
+
+function switchSite(id) {
+  document.querySelectorAll('.stab').forEach(function(t){ t.classList.remove('active'); });
+  var tab = document.querySelector('.stab[data-site="' + id + '"]');
+  if (tab) tab.classList.add('active');
+  document.querySelectorAll('.site-pg').forEach(function(p){ p.classList.remove('on'); });
+  var pg = document.getElementById('site-' + id);
+  if (pg) pg.classList.add('on');
 }
-window.addEventListener('load', attachNav);
 
-const PAGES={dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
-const TRS=["HIPAA","Active Shooter","HIV Consent","Inf. Control","Wkpl Violence","FWA","Sex. Harass.","Emerg. Prep.","Pt Rights","Human Traffick.","Mand. Reporter"];
-const TRF=["HIPAA Privacy & Security","Active Shooter Response","HIV Informed Consent","Infection Control / OSHA","Workplace Violence Prevention","Fraud, Waste & Abuse","Sexual Harassment Prevention","Emergency Preparedness","Patient Rights / Cultural Competency","Human Trafficking Recognition","Mandated Reporter"];
+// ── Data ──────────────────────────────────────────────────────────────────
+var TRS = ["HIPAA","Active Shooter","HIV Consent","Inf. Control","Wkpl Violence","FWA","Sex. Harass.","Emerg. Prep.","Pt Rights","Human Traffick.","Mand. Reporter"];
+var TRF = ["HIPAA Privacy & Security","Active Shooter Response","HIV Informed Consent","Infection Control / OSHA","Workplace Violence Prevention","Fraud, Waste & Abuse","Sexual Harassment Prevention","Emergency Preparedness","Patient Rights / Cultural Competency","Human Trafficking Recognition","Mandated Reporter"];
 
-let employees=[
+var employees = [
   {id:"e1",name:"Admin Director",title:"Director of Operations",dept:"HR / Operations",site:"All sites",role:"Admin",start:"2020-01-01",email:"admin@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
   {id:"e2",name:"Medical Director",title:"Medical Director, MD",dept:"Clinical / Medical",site:"All sites",role:"Provider",start:"2019-06-01",email:"md@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
   {id:"e3",name:"Daisy (MA Lead)",title:"Medical Assistant Lead",dept:"Clinical / Medical",site:"Bay Parkway",role:"Clinical Staff",start:"2021-03-15",email:"daisy@parcare.org",tr:{HIPAA:"missing","Active Shooter":"missing","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"missing","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
@@ -422,29 +413,48 @@ let employees=[
   {id:"e5",name:"QI Coordinator",title:"QI Coordinator",dept:"Quality Improvement",site:"All sites",role:"QI Staff",start:"2022-01-10",email:"qi@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"missing",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
   {id:"e6",name:"HR Director",title:"HR Director",dept:"HR / Operations",site:"All sites",role:"HR",start:"2021-07-01",email:"hr@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
   {id:"e7",name:"Noraini Ramos",title:"Front Desk Manager",dept:"HR / Operations",site:"Bay Parkway",role:"Manager",start:"2020-11-01",email:"nramos@parcare.org",tr:{HIPAA:"done","Active Shooter":"missing","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"missing","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
-  {id:"e8",name:"Site Mgr — Bay Pkwy",title:"Site Manager",dept:"Site Operations",site:"Bay Parkway",role:"Site Manager",start:"2021-01-01",email:"bp@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"missing",FWA:"done","Sex. Harass.":"missing","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
-  {id:"e9",name:"Site Mgr — 16th Ave",title:"Site Manager",dept:"Site Operations",site:"16th Ave",role:"Site Manager",start:"2021-01-01",email:"16th@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
-  {id:"e10",name:"Site Mgr — Williamsburg",title:"Site Manager",dept:"Site Operations",site:"Williamsburg",role:"Site Manager",start:"2021-01-01",email:"wb@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
-  {id:"e11",name:"Site Mgr — Rambam",title:"Site Manager",dept:"Site Operations",site:"Rambam",role:"Site Manager",start:"2021-01-01",email:"rm@parcare.org",tr:{HIPAA:"missing","Active Shooter":"missing","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"missing",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
+  {id:"e8",name:"Site Mgr - Bay Pkwy",title:"Site Manager",dept:"Site Operations",site:"Bay Parkway",role:"Site Manager",start:"2021-01-01",email:"bp@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"missing",FWA:"done","Sex. Harass.":"missing","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
+  {id:"e9",name:"Site Mgr - 16th Ave",title:"Site Manager",dept:"Site Operations",site:"16th Ave",role:"Site Manager",start:"2021-01-01",email:"16th@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
+  {id:"e10",name:"Site Mgr - Williamsburg",title:"Site Manager",dept:"Site Operations",site:"Williamsburg",role:"Site Manager",start:"2021-01-01",email:"wb@parcare.org",tr:{HIPAA:"done","Active Shooter":"done","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"done",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
+  {id:"e11",name:"Site Mgr - Rambam",title:"Site Manager",dept:"Site Operations",site:"Rambam",role:"Site Manager",start:"2021-01-01",email:"rm@parcare.org",tr:{HIPAA:"missing","Active Shooter":"missing","HIV Consent":"done","Inf. Control":"done","Wkpl Violence":"missing",FWA:"done","Sex. Harass.":"done","Emerg. Prep.":"done","Pt Rights":"done","Human Traffick.":"done","Mand. Reporter":"done"}},
 ];
-let empF="",empDF="",openEmps={};
-function ini(n){return n.split(" ").map(w=>w[0]).join("").substring(0,2).toUpperCase();}
-const DBGC={"Clinical / Medical":"#0C447C","Quality Improvement":"#0C447C","Compliance":"#27500A","HR / Operations":"#791F1F","Site Operations":"#633806"};
-const DBBG={"Clinical / Medical":"#E6F1FB","Quality Improvement":"#E6F1FB","Compliance":"#EAF3DE","HR / Operations":"#FFEBEE","Site Operations":"#FAEEDA"};
-function renderEmp(){
-  const shown=employees.filter(e=>{const q=empF.toLowerCase();const dm=!empDF||e.dept===empDF;return dm&&(!q||e.name.toLowerCase().includes(q)||e.title.toLowerCase().includes(q));});
-  document.getElementById("emp-list").innerHTML=shown.map(e=>{
-    const done=TRS.filter(t=>e.tr[t]==="done").length;const pct=Math.round(done/TRS.length*100);const col=pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";const miss=TRS.filter(t=>e.tr[t]==="missing");
-    return`<div class="emp-card"><div class="emp-hd" onclick="togEmp('${e.id}')"><div class="emp-av" style="background:${DBBG[e.dept]||"var(--bg-secondary)"};color:${DBGC[e.dept]||"var(--text-secondary)"}">${ini(e.name)}</div><div class="emp-info"><div class="emp-name">${e.name}</div><div class="emp-role">${e.title} &middot; ${e.dept} &middot; ${e.site}</div></div><span class="rb">${e.role}</span><div style="text-align:right;min-width:80px"><div style="font-size:11px;font-weight:600;color:${col}">${pct}% trained</div><div class="pb" style="width:80px;margin-top:3px"><div class="pf" style="width:${pct}%;background:${col}"></div></div></div>${miss.length>0?'<span class="bdg err">'+miss.length+' missing</span>':'<span class="bdg ok">All done</span>'}</div><div class="emp-body ${openEmps[e.id]?"open":""}" id="empb-${e.id}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;font-size:12px"><div><span style="color:var(--text-secondary)">Email: </span>${e.email}</div><div><span style="color:var(--text-secondary)">Start: </span>${e.start}</div><div><span style="color:var(--text-secondary)">Site: </span>${e.site}</div><div><span style="color:var(--text-secondary)">Access: </span>${e.role}</div></div><div class="sec-t" style="margin-bottom:8px">Training status <button class="btn sm" onclick="openM('lms-modal')" style="margin-left:8px">Assign training</button></div>${TRS.map(t=>`<div class="tr-row"><div class="ck ${e.tr[t]==="done"?"ok":"err"}">${e.tr[t]==="done"?"&#10003;":"&#10007;"}</div><div class="tr-name">${TRF[TRS.indexOf(t)]}</div><div style="font-size:11px;min-width:80px;text-align:right;color:${e.tr[t]==="done"?"var(--text-success)":"var(--text-danger)"}">${e.tr[t]==="done"?"Complete":"Incomplete"}</div>${e.tr[t]!=="done"?'<button class="btn sm" onclick="markTr(''+e.id+'',''+t+'')">Mark done</button>':""}</div>`).join("")}</div></div>`;
+var empF = "", empDF = "", openEmps = {};
+var DBGC = {"Clinical / Medical":"#0C447C","Quality Improvement":"#0C447C","Compliance":"#27500A","HR / Operations":"#791F1F","Site Operations":"#633806"};
+var DBBG = {"Clinical / Medical":"#E6F1FB","Quality Improvement":"#E6F1FB","Compliance":"#EAF3DE","HR / Operations":"#FFEBEE","Site Operations":"#FAEEDA"};
+
+function ini(n){ return n.split(" ").map(function(w){return w[0];}).join("").substring(0,2).toUpperCase(); }
+
+function renderEmp() {
+  var shown = employees.filter(function(e){
+    var q = empF.toLowerCase();
+    var dm = !empDF || e.dept === empDF;
+    return dm && (!q || e.name.toLowerCase().includes(q) || e.title.toLowerCase().includes(q));
+  });
+  document.getElementById("emp-list").innerHTML = shown.map(function(e){
+    var done = TRS.filter(function(t){return e.tr[t]==="done";}).length;
+    var pct = Math.round(done/TRS.length*100);
+    var col = pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";
+    var miss = TRS.filter(function(t){return e.tr[t]==="missing";});
+    var rows = TRS.map(function(t){
+      var isDone = e.tr[t]==="done";
+      return '<div class="tr-row"><div class="ck '+(isDone?"ok":"err")+'">'+(isDone?"&#10003;":"&#10007;")+'</div><div class="tr-name">'+TRF[TRS.indexOf(t)]+'</div><div style="font-size:11px;min-width:80px;text-align:right;color:'+(isDone?"var(--text-success)":"var(--text-danger)">'">'+(isDone?"Complete":"Incomplete")+'</div>'+(isDone?"":'<button class="btn sm" data-marktr="'+e.id+'|'+t+'">Mark done</button>')+'</div>';
+    }).join("");
+    return '<div class="emp-card"><div class="emp-hd" data-empid="'+e.id+'"><div class="emp-av" style="background:'+( DBBG[e.dept]||"var(--bg-secondary)")+';color:'+(DBGC[e.dept]||"var(--text-secondary)")+'">'+ini(e.name)+'</div><div class="emp-info"><div class="emp-name">'+e.name+'</div><div class="emp-role">'+e.title+' &middot; '+e.dept+' &middot; '+e.site+'</div></div><span class="rb">'+e.role+'</span><div style="text-align:right;min-width:80px"><div style="font-size:11px;font-weight:600;color:'+col+'">'+pct+'% trained</div><div class="pb" style="width:80px;margin-top:3px"><div class="pf" style="width:'+pct+'%;background:'+col+'"></div></div></div>'+(miss.length>0?'<span class="bdg err">'+miss.length+' missing</span>':'<span class="bdg ok">All done</span>')+'</div><div class="emp-body'+(openEmps[e.id]?" open":"")+'" id="empb-'+e.id+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;font-size:12px"><div><span style="color:var(--text-secondary)">Email: </span>'+e.email+'</div><div><span style="color:var(--text-secondary)">Start: </span>'+e.start+'</div><div><span style="color:var(--text-secondary)">Site: </span>'+e.site+'</div><div><span style="color:var(--text-secondary)">Access: </span>'+e.role+'</div></div><div class="sec-t" style="margin-bottom:8px">Training status <button class="btn sm" data-action="open-lms-modal" style="margin-left:8px">Assign training</button></div>'+rows+'</div></div>';
   }).join("");
 }
-function togEmp(id){openEmps[id]=!openEmps[id];const b=document.getElementById("empb-"+id);if(b)b.classList.toggle("open",!!openEmps[id]);}
-function filterEmp(v){empF=v;renderEmp();}
-function filterEmpDept(v){empDF=v;renderEmp();}
-function markTr(eid,t){const e=employees.find(x=>x.id===eid);if(e)e.tr[t]="done";renderEmp();}
-function addEmp(){const fn=document.getElementById("e-fn").value;const ln=document.getElementById("e-ln").value;if(!fn&&!ln)return;const tr={};TRS.forEach(t=>tr[t]="missing");employees.push({id:"e"+Date.now(),name:fn+" "+ln,title:document.getElementById("e-title").value,dept:document.getElementById("e-dept").value,site:document.getElementById("e-site").value,role:document.getElementById("e-role").value,start:document.getElementById("e-start").value||"2026",email:document.getElementById("e-email").value,tr});closeM("emp-modal");renderEmp();}
 
-const LMS_DATA=[
+function togEmp(id){ openEmps[id]=!openEmps[id]; var b=document.getElementById("empb-"+id); if(b)b.classList.toggle("open",!!openEmps[id]); }
+function markTr(eid,t){ var e=employees.find(function(x){return x.id===eid;}); if(e)e.tr[t]="done"; renderEmp(); }
+function addEmp(){
+  var fn=document.getElementById("e-fn").value;
+  var ln=document.getElementById("e-ln").value;
+  if(!fn&&!ln)return;
+  var tr={};TRS.forEach(function(t){tr[t]="missing";});
+  employees.push({id:"e"+Date.now(),name:fn+" "+ln,title:document.getElementById("e-title").value,dept:document.getElementById("e-dept").value,site:document.getElementById("e-site").value,role:document.getElementById("e-role").value,start:document.getElementById("e-start").value||"2026",email:document.getElementById("e-email").value,tr:tr});
+  closeM("emp-modal"); renderEmp();
+}
+
+var LMS_DATA=[
   {tr:"HIPAA Privacy & Security",method:"Online video",done:9,total:11},
   {tr:"Active Shooter Response",method:"In-person",done:8,total:11},
   {tr:"HIV Informed Consent",method:"Online video",done:7,total:9},
@@ -457,129 +467,227 @@ const LMS_DATA=[
   {tr:"Human Trafficking Recognition",method:"Online video",done:11,total:11},
   {tr:"Mandated Reporter",method:"Read & sign",done:9,total:11},
 ];
-let openLMS={};
+var openLMS={};
 function renderLMS(){
-  document.getElementById("lms-list").innerHTML=LMS_DATA.map((a,i)=>{const pct=Math.round(a.done/a.total*100);const col=pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";const id="lms"+i;return`<div class="lms-card"><div class="lms-hd" onclick="togLMS('${id}')"><div class="ck ${pct===100?"ok":pct>=80?"warn":"err"}">${pct===100?"&#10003;":pct>=80?"~":"!"}</div><div class="lms-title">${a.tr}</div><span class="rb" style="margin-right:4px">${a.method}</span><div style="min-width:90px;text-align:right"><div style="font-size:11px;font-weight:600;color:${col}">${a.done}/${a.total} complete</div><div class="pb" style="margin-top:2px"><div class="pf" style="width:${pct}%;background:${col}"></div></div></div></div><div class="lms-body" id="lbody-${id}"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn sm pri" onclick="openM('lms-modal')">Re-assign</button><button class="btn sm">Send reminder</button></div><div class="upload-zone">Click to upload completion certificates or sign-in sheets</div></div></div>`;}).join("");
-}
-function togLMS(id){openLMS[id]=!openLMS[id];const b=document.getElementById("lbody-"+id);if(b)b.classList.toggle("open",!!openLMS[id]);}
-
-let trFilter="",trColF="";
-function renderTraining(){
-  const cols=trColF?[trColF]:TRS;
-  document.getElementById("tr-thead").innerHTML=`<tr><th style="min-width:110px">Name</th><th>Dept</th>${cols.map(c=>`<th style="min-width:60px;font-size:9px">${c}</th>`).join("")}</tr>`;
-  const shown=employees.filter(e=>!trFilter||e.name.toLowerCase().includes(trFilter.toLowerCase()));
-  document.getElementById("tr-tbody").innerHTML=shown.map(e=>`<tr><td style="font-weight:600;min-width:110px">${e.name}</td><td style="color:var(--text-tertiary);font-size:11px">${e.dept.split("/")[0].trim()}</td>${cols.map(t=>`<td style="text-align:center">${e.tr[t]==="done"?'<span style="color:var(--text-success)">&#10003;</span>':'<span style="color:var(--text-danger)">&#10007;</span>'}</td>`).join("")}</tr>`).join("");
-  document.getElementById("tr-summary").innerHTML=TRS.map((t,i)=>{const done=employees.filter(e=>e.tr[t]==="done").length;const pct=Math.round(done/employees.length*100);const col=pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";return`<div class="met"><div class="met-l" style="font-size:10px">${TRF[i].split("/")[0].trim().substring(0,20)}</div><div class="met-v" style="font-size:16px;color:${col}">${pct}%</div><div class="pb"><div class="pf" style="width:${pct}%;background:${col}"></div></div></div>`;}).join("");
-}
-function filterTrStaff(v){trFilter=v;renderTraining();}
-function filterTrCol(v){trColF=v;renderTraining();}
-
-let tasks=[
-  {id:"t1",name:"Q2 Fire drill — Bay Parkway",who:"Site Manager — Bay Parkway",cat:"Fire & Safety",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Conduct full evacuation drill. Attach signed staff sign-in sheet."},
-  {id:"t2",name:"Q2 Fire drill — Rambam",who:"Site Manager — Rambam",cat:"Fire & Safety",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Conduct full evacuation drill. Attach signed staff sign-in sheet."},
-  {id:"t3",name:"UDS annual data submission",who:"QI Coordinator",cat:"Regulatory Filing",due:"Mar 31, 2026",status:"overdue",upload:true,notes:"Submit UDS data to HRSA EHB portal."},
-  {id:"t4",name:"Medical waste contract renewal",who:"HR Director",cat:"Facility",due:"Apr 10, 2026",status:"overdue",upload:true,notes:"Renew with licensed medical waste vendor. Upload signed contract."},
-  {id:"t5",name:"Re-credentialing — 2 providers",who:"Medical Director",cat:"Credentialing",due:"Apr 25, 2026",status:"pending",upload:true,notes:"Complete re-credentialing files and obtain Board approval."},
-  {id:"t6",name:"Sliding fee scale — Board approval",who:"Compliance Officer",cat:"Regulatory Filing",due:"Apr 30, 2026",status:"pending",upload:true,notes:"Present updated sliding fee scale to Board. Upload signed minutes."},
-  {id:"t7",name:"CLIA certificate renewal — all sites",who:"Compliance Officer",cat:"Regulatory Filing",due:"Jul 1, 2026",status:"pending",upload:true,notes:"Renew CLIA certificates for all 4 sites. Upload to Site Records."},
-  {id:"t8",name:"QC log review — all sites (monthly)",who:"All Site Managers",cat:"Quality",due:"May 1, 2026",status:"pending",upload:true,notes:"Review and sign QC logs. Upload completed logs."},
-  {id:"t9",name:"Medication & supply expiration audit",who:"All Site Managers",cat:"Facility",due:"May 1, 2026",status:"pending",upload:true,notes:"Check all medications and supplies for expiration. Attach completed log."},
-  {id:"t10",name:"Patient satisfaction survey — Q2 2026",who:"QI Coordinator",cat:"Quality",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Collect and compile Q2 surveys. Upload summary to Quality & QI folder."},
-];
-let openTasks={};
-function renderTasks(){
-  const cats=[...new Set(tasks.map(t=>t.cat))];
-  document.getElementById("tasks-container").innerHTML=cats.map(cat=>{
-    const grp=tasks.filter(t=>t.cat===cat);
-    return`<div style="margin-bottom:18px"><div class="sec-t">${cat}<span>${grp.filter(t=>t.status!=="done").length} open</span></div>${grp.map(t=>{const isDone=t.status==="done";const isOver=t.status==="overdue";return`<div style="background:var(--bg-primary);border:0.5px solid ${isOver?"var(--border-danger)":"var(--border-light)"};border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" onclick="togTask('${t.id}')"><div class="ck ${isDone?"ok":isOver?"err":"warn"}">${isDone?"&#10003;":isOver?"!":"~"}</div><div style="flex:1;font-size:12px;font-weight:600">${t.name}</div><span style="font-size:10px;color:var(--text-tertiary);margin-right:4px">${t.who}</span>${isDone?'<span class="bdg ok">Complete</span>':isOver?'<span class="bdg err">Overdue</span>':'<span class="bdg warn">Pending</span>'}</div><div id="tbody-${t.id}" class="task-body ${openTasks[t.id]?"open":""}"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Assigned to: </span>${t.who}</div><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Due: </span><span style="${isOver?"color:var(--text-danger)":""}">${t.due}</span></div><div style="font-size:12px;margin-bottom:8px"><span style="color:var(--text-secondary)">Notes: </span>${t.notes}</div>${isDone?'<div class="done-banner">&#10003; Completed'+(t.upload?" — document on file":"")+"</div>":`<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn suc" onclick="doneTask('${t.id}')">Mark complete${t.upload?" & upload":""}</button></div>${t.upload?'<div class="upload-zone" onclick="doneTask(''+t.id+'')">Click to attach document</div>':""}`}</div></div>`;}).join("")}</div>`;
+  document.getElementById("lms-list").innerHTML=LMS_DATA.map(function(a,i){
+    var pct=Math.round(a.done/a.total*100);
+    var col=pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";
+    var id="lms"+i;
+    return '<div class="lms-card"><div class="lms-hd" data-lmsid="'+id+'"><div class="ck '+(pct===100?"ok":pct>=80?"warn":"err")+'">'+(pct===100?"&#10003;":pct>=80?"~":"!")+'</div><div class="lms-title">'+a.tr+'</div><span class="rb" style="margin-right:4px">'+a.method+'</span><div style="min-width:90px;text-align:right"><div style="font-size:11px;font-weight:600;color:'+col+'">'+a.done+'/'+a.total+' complete</div><div class="pb" style="margin-top:2px"><div class="pf" style="width:'+pct+'%;background:'+col+'"></div></div></div></div><div class="lms-body" id="lbody-'+id+'"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn sm pri" data-action="open-lms-modal">Re-assign</button></div><div class="upload-zone">Click to upload completion certificates or sign-in sheets</div></div></div>';
   }).join("");
 }
-function togTask(id){openTasks[id]=!openTasks[id];const b=document.getElementById("tbody-"+id);if(b)b.classList.toggle("open",!!openTasks[id]);}
-function doneTask(id){const t=tasks.find(x=>x.id===id);if(t)t.status="done";renderTasks();}
-function createTask(){const name=document.getElementById("tk-name").value||"New task";tasks.unshift({id:"t"+Date.now(),name,who:document.getElementById("tk-who").value,cat:document.getElementById("tk-cat").value,due:document.getElementById("tk-due").value||"TBD",status:"pending",upload:document.getElementById("tk-upload").value==="yes",notes:document.getElementById("tk-notes").value||""});closeM("task-modal");renderTasks();}
+function togLMS(id){ openLMS[id]=!openLMS[id]; var b=document.getElementById("lbody-"+id); if(b)b.classList.toggle("open",!!openLMS[id]); }
 
-const SITES=[{id:"bp",name:"Bay Parkway"},{id:"16",name:"16th Ave"},{id:"wb",name:"Williamsburg"},{id:"rm",name:"Rambam"}];
-const QS=["Q1 2026","Q2 2026","Q3 2026","Q4 2026"];
-const drills={bp:{"Q1 2026":"done","Q2 2026":"pending","Q3 2026":"","Q4 2026":""},"16":{"Q1 2026":"done","Q2 2026":"done","Q3 2026":"","Q4 2026":""},wb:{"Q1 2026":"done","Q2 2026":"done","Q3 2026":"","Q4 2026":""},rm:{"Q1 2026":"done","Q2 2026":"pending","Q3 2026":"","Q4 2026":""}};
-const siteTasks={bp:[{id:"bp1",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true},{id:"bp2",name:"Exit signage & emergency lighting test",cat:"Fire & Safety",due:"Apr 30, 2026",status:"pending",upload:false},{id:"bp3",name:"Fire extinguisher annual inspection",cat:"Fire & Safety",due:"Mar 31, 2026",status:"overdue",upload:true}],"16":[{id:"161",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"done",upload:true},{id:"162",name:"Evacuation route map — current posted",cat:"Fire & Safety",due:"Apr 15, 2026",status:"done",upload:false},{id:"163",name:"Biohazard waste container review",cat:"Facility",due:"May 15, 2026",status:"pending",upload:false}],wb:[{id:"wb1",name:"Emergency contact list — updated",cat:"Fire & Safety",due:"Apr 25, 2026",status:"pending",upload:false},{id:"wb2",name:"Fire extinguisher annual inspection",cat:"Fire & Safety",due:"Apr 1, 2026",status:"overdue",upload:true},{id:"wb3",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true}],rm:[{id:"rm1",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true},{id:"rm2",name:"Exit signage & emergency lighting test",cat:"Fire & Safety",due:"Apr 30, 2026",status:"pending",upload:false},{id:"rm3",name:"Evacuation route map — current posted",cat:"Fire & Safety",due:"Apr 15, 2026",status:"pending",upload:false}]};
-let openDrills={},openSiteTasks={};
-function markDrill(sid,q){drills[sid][q]="done";renderDrillGrid();renderSiteAll();updateDrillCount();}
-function updateDrillCount(){let done=0,tot=0;SITES.forEach(s=>QS.forEach(q=>{tot++;if(drills[s.id][q]==="done")done++;}));document.getElementById("drill-count").textContent=done+"/"+tot;document.getElementById("drill-bar").style.width=Math.round(done/tot*100)+"%";document.getElementById("drill-summary").textContent=done+"/"+tot+" complete";}
-function renderDrillGrid(){document.getElementById("drill-grid").innerHTML=SITES.map(s=>`<div class="drill-cell"><div class="drill-site">${s.name}</div>${QS.map(q=>{const st=drills[s.id][q];const isDone=st==="done";const isPend=st==="pending";return`<div class="drill-q"><div class="ck ${isDone?"ok":isPend?"warn":"em"}">${isDone?"&#10003;":isPend?"~":""}</div><div class="drill-q-l" style="font-size:11px">${q}</div>${!isDone&&isPend?`<button class="btn sm" onclick="markDrill('${s.id}','${q}')">Done</button>`:""}</div>`;}).join("")}</div>`).join("");}
-function buildSiteContent(sids,compact){let html="";sids.forEach(sid=>{const s=SITES.find(x=>x.id===sid);const dtasks=(siteTasks[sid]||[]);if(!compact)html+=`<div class="sec-t">${s.name} &mdash; fire drills<span>${QS.filter(q=>drills[sid][q]==="done").length}/4</span></div>`;QS.forEach(q=>{const st=drills[sid][q];const isDone=st==="done";const isPend=st==="pending";const tid="dr_"+sid+"_"+q.replace(/\s/g,"_");html+=`<div style="background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" onclick="togDrill('${tid}')"><div class="ck ${isDone?"ok":isPend?"warn":"em"}">${isDone?"&#10003;":isPend?"~":""}</div><div style="flex:1;font-size:12px;font-weight:600">Fire drill &mdash; ${s.name} &mdash; ${q}</div>${isDone?'<span class="bdg ok">Complete</span>':isPend?'<span class="bdg warn">Pending</span>':'<span class="bdg neu">Upcoming</span>'}</div><div id="${tid}" class="task-body ${openDrills[tid]?"open":""}"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Assigned to: </span>Site Manager &mdash; ${s.name}</div><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Required: </span>Signed staff sign-in sheet</div>${isDone?'<div class="done-banner">&#10003; Completed &mdash; sign-in sheet on file</div>':`<div style="display:flex;gap:6px"><button class="btn suc" onclick="markDrill('${sid}','${q}');togDrill('${tid}')">Mark complete &amp; upload sign-in</button></div><div class="upload-zone" onclick="markDrill('${sid}','${q}')">Click to attach sign-in sheet</div>`}</div></div>`;});html+=`<div class="sec-t" style="margin-top:10px">${compact?"":s.name+" &mdash; "}Safety tasks<span>${dtasks.filter(t=>t.status!=="done").length} open</span></div>`;dtasks.forEach(t=>{const isDone=t.status==="done";const isOver=t.status==="overdue";html+=`<div style="background:var(--bg-primary);border:0.5px solid ${isOver?"var(--border-danger)":"var(--border-light)"};border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" onclick="togST('${t.id}')"><div class="ck ${isDone?"ok":isOver?"err":"warn"}">${isDone?"&#10003;":isOver?"!":"~"}</div><div style="flex:1;font-size:12px;font-weight:600">${t.name}</div>${isDone?'<span class="bdg ok">Complete</span>':isOver?'<span class="bdg err">Overdue</span>':'<span class="bdg warn">Pending</span>'}</div><div id="st_${t.id}" class="task-body ${openSiteTasks[t.id]?"open":""}"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Category: </span>${t.cat}</div><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Due: </span><span style="${isOver?"color:var(--text-danger)":""}">${t.due}</span></div>${isDone?'<div class="done-banner">&#10003; Completed</div>':`<button class="btn suc" onclick="doneST('${sid}','${t.id}')">Mark complete${t.upload?" & upload":""}</button>${t.upload?'<div class="upload-zone" onclick="doneST(''+sid+'',''+t.id+'')">Click to attach document</div>':""}`}</div></div>`;});if(!compact)html+='<div style="margin-bottom:20px"></div>';});return html;}
-function renderSiteAll(){document.getElementById("site-all").innerHTML=buildSiteContent(["bp","16","wb","rm"],false);document.getElementById("site-bp").innerHTML=buildSiteContent(["bp"],true);document.getElementById("site-16").innerHTML=buildSiteContent(["16"],true);document.getElementById("site-wb").innerHTML=buildSiteContent(["wb"],true);document.getElementById("site-rm").innerHTML=buildSiteContent(["rm"],true);}
-function togDrill(id){openDrills[id]=!openDrills[id];const b=document.getElementById(id);if(b)b.classList.toggle("open",!!openDrills[id]);}
-function togST(id){openSiteTasks[id]=!openSiteTasks[id];const b=document.getElementById("st_"+id);if(b)b.classList.toggle("open",!!openSiteTasks[id]);}
-function doneST(sid,id){const t=(siteTasks[sid]||[]).find(x=>x.id===id);if(t)t.status="done";renderSiteAll();}
-function switchSite(id,el){document.querySelectorAll(".stab").forEach(t=>t.classList.remove("active"));el.classList.add("active");document.querySelectorAll(".site-pg").forEach(p=>p.classList.remove("on"));document.getElementById("site-"+id).classList.add("on");}
+var trFilter="",trColF="";
+function renderTraining(){
+  var cols=trColF?[trColF]:TRS;
+  document.getElementById("tr-thead").innerHTML='<tr><th style="min-width:110px">Name</th><th>Dept</th>'+cols.map(function(c){return '<th style="min-width:60px;font-size:9px">'+c+'</th>';}).join("")+'</tr>';
+  var shown=employees.filter(function(e){return !trFilter||e.name.toLowerCase().includes(trFilter.toLowerCase());});
+  document.getElementById("tr-tbody").innerHTML=shown.map(function(e){
+    return '<tr><td style="font-weight:600;min-width:110px">'+e.name+'</td><td style="color:var(--text-tertiary);font-size:11px">'+e.dept.split("/")[0].trim()+'</td>'+cols.map(function(t){return '<td style="text-align:center">'+(e.tr[t]==="done"?'<span style="color:var(--text-success)">&#10003;</span>':'<span style="color:var(--text-danger)">&#10007;</span>')+'</td>';}).join("")+'</tr>';
+  }).join("");
+  document.getElementById("tr-summary").innerHTML=TRS.map(function(t,i){
+    var done=employees.filter(function(e){return e.tr[t]==="done";}).length;
+    var pct=Math.round(done/employees.length*100);
+    var col=pct===100?"#639922":pct>=80?"#185FA5":"#A32D2D";
+    return '<div class="met"><div class="met-l" style="font-size:10px">'+TRF[i].split("/")[0].trim().substring(0,20)+'</div><div class="met-v" style="font-size:16px;color:'+col+'">'+pct+'%</div><div class="pb"><div class="pf" style="width:'+pct+'%;background:'+col+'"></div></div></div>';
+  }).join("");
+}
 
-const FOLDERS=[{name:"Clinical Policies",col:"#0C447C"},{name:"Board & Governance",col:"#26215C"},{name:"Quality & QI",col:"#27500A"},{name:"Compliance & Audits",col:"#791F1F"},{name:"HR / Personnel",col:"#633806"},{name:"Site Records",col:"#3B6D11"},{name:"Contracts & Vendors",col:"#854F0B"},{name:"Incident Reports",col:"#A32D2D"},{name:"Workflows",col:"#185FA5"}];
-const docs=[
+var tasks=[
+  {id:"t1",name:"Q2 Fire drill - Bay Parkway",who:"Site Manager - Bay Parkway",cat:"Fire & Safety",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Conduct full evacuation drill. Attach signed staff sign-in sheet."},
+  {id:"t2",name:"Q2 Fire drill - Rambam",who:"Site Manager - Rambam",cat:"Fire & Safety",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Conduct full evacuation drill. Attach signed staff sign-in sheet."},
+  {id:"t3",name:"UDS annual data submission",who:"QI Coordinator",cat:"Regulatory Filing",due:"Mar 31, 2026",status:"overdue",upload:true,notes:"Submit UDS data to HRSA EHB portal."},
+  {id:"t4",name:"Medical waste contract renewal",who:"HR Director",cat:"Facility",due:"Apr 10, 2026",status:"overdue",upload:true,notes:"Renew with licensed medical waste vendor. Upload signed contract."},
+  {id:"t5",name:"Re-credentialing - 2 providers",who:"Medical Director",cat:"Credentialing",due:"Apr 25, 2026",status:"pending",upload:true,notes:"Complete re-credentialing files and obtain Board approval."},
+  {id:"t6",name:"Sliding fee scale - Board approval",who:"Compliance Officer",cat:"Regulatory Filing",due:"Apr 30, 2026",status:"pending",upload:true,notes:"Present updated sliding fee scale to Board. Upload signed minutes."},
+  {id:"t7",name:"CLIA certificate renewal - all sites",who:"Compliance Officer",cat:"Regulatory Filing",due:"Jul 1, 2026",status:"pending",upload:true,notes:"Renew CLIA certificates for all 4 sites."},
+  {id:"t8",name:"QC log review - all sites (monthly)",who:"All Site Managers",cat:"Quality",due:"May 1, 2026",status:"pending",upload:true,notes:"Review and sign QC logs. Upload completed logs."},
+  {id:"t9",name:"Medication & supply expiration audit",who:"All Site Managers",cat:"Facility",due:"May 1, 2026",status:"pending",upload:true,notes:"Check all medications and supplies for expiration. Attach completed log."},
+  {id:"t10",name:"Patient satisfaction survey - Q2 2026",who:"QI Coordinator",cat:"Quality",due:"Jun 30, 2026",status:"pending",upload:true,notes:"Collect and compile Q2 surveys. Upload summary to Quality & QI folder."},
+];
+var openTasks={};
+function renderTasks(){
+  var cats=[...new Set(tasks.map(function(t){return t.cat;}))];
+  document.getElementById("tasks-container").innerHTML=cats.map(function(cat){
+    var grp=tasks.filter(function(t){return t.cat===cat;});
+    return '<div style="margin-bottom:18px"><div class="sec-t">'+cat+'<span>'+grp.filter(function(t){return t.status!=="done";}).length+' open</span></div>'+grp.map(function(t){
+      var isDone=t.status==="done";var isOver=t.status==="overdue";
+      return '<div style="background:var(--bg-primary);border:0.5px solid '+(isOver?"var(--border-danger)":"var(--border-light)")+';border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" data-taskid="'+t.id+'"><div class="ck '+(isDone?"ok":isOver?"err":"warn")+'">'+(isDone?"&#10003;":isOver?"!":"~")+'</div><div style="flex:1;font-size:12px;font-weight:600">'+t.name+'</div><span style="font-size:10px;color:var(--text-tertiary);margin-right:4px">'+t.who+'</span>'+(isDone?'<span class="bdg ok">Complete</span>':isOver?'<span class="bdg err">Overdue</span>':'<span class="bdg warn">Pending</span>')+'</div><div id="tbody-'+t.id+'" class="task-body'+(openTasks[t.id]?" open":"")+'"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Assigned to: </span>'+t.who+'</div><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Due: </span><span style="'+(isOver?"color:var(--text-danger)":"")+'">' +t.due+'</span></div><div style="font-size:12px;margin-bottom:8px"><span style="color:var(--text-secondary)">Notes: </span>'+t.notes+'</div>'+(isDone?'<div class="done-banner">&#10003; Completed'+(t.upload?" - document on file":"")+'</div>':'<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn suc" data-donetask="'+t.id+'">Mark complete'+(t.upload?" & upload":"")+'</button></div>'+(t.upload?'<div class="upload-zone" data-donetask="'+t.id+'">Click to attach document</div>':""))+'</div></div>';
+    }).join("")+'</div>';
+  }).join("");
+}
+function doneTask(id){ var t=tasks.find(function(x){return x.id===id;}); if(t)t.status="done"; renderTasks(); }
+function createTask(){
+  var name=document.getElementById("tk-name").value||"New task";
+  tasks.unshift({id:"t"+Date.now(),name:name,who:document.getElementById("tk-who").value,cat:document.getElementById("tk-cat").value,due:document.getElementById("tk-due").value||"TBD",status:"pending",upload:document.getElementById("tk-upload").value==="yes",notes:document.getElementById("tk-notes").value||""});
+  closeM("task-modal"); renderTasks();
+}
+
+var SITES=[{id:"bp",name:"Bay Parkway"},{id:"16",name:"16th Ave"},{id:"wb",name:"Williamsburg"},{id:"rm",name:"Rambam"}];
+var QS=["Q1 2026","Q2 2026","Q3 2026","Q4 2026"];
+var drills={bp:{"Q1 2026":"done","Q2 2026":"pending","Q3 2026":"","Q4 2026":""},"16":{"Q1 2026":"done","Q2 2026":"done","Q3 2026":"","Q4 2026":""},wb:{"Q1 2026":"done","Q2 2026":"done","Q3 2026":"","Q4 2026":""},rm:{"Q1 2026":"done","Q2 2026":"pending","Q3 2026":"","Q4 2026":""}};
+var siteTasks={bp:[{id:"bp1",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true},{id:"bp2",name:"Exit signage & emergency lighting test",cat:"Fire & Safety",due:"Apr 30, 2026",status:"pending",upload:false},{id:"bp3",name:"Fire extinguisher annual inspection",cat:"Fire & Safety",due:"Mar 31, 2026",status:"overdue",upload:true}],"16":[{id:"161",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"done",upload:true},{id:"162",name:"Evacuation route map - current posted",cat:"Fire & Safety",due:"Apr 15, 2026",status:"done",upload:false},{id:"163",name:"Biohazard waste container review",cat:"Facility",due:"May 15, 2026",status:"pending",upload:false}],wb:[{id:"wb1",name:"Emergency contact list - updated",cat:"Fire & Safety",due:"Apr 25, 2026",status:"pending",upload:false},{id:"wb2",name:"Fire extinguisher annual inspection",cat:"Fire & Safety",due:"Apr 1, 2026",status:"overdue",upload:true},{id:"wb3",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true}],rm:[{id:"rm1",name:"AED inspection & battery check",cat:"Emergency Equipment",due:"May 1, 2026",status:"pending",upload:true},{id:"rm2",name:"Exit signage & emergency lighting test",cat:"Fire & Safety",due:"Apr 30, 2026",status:"pending",upload:false},{id:"rm3",name:"Evacuation route map - current posted",cat:"Fire & Safety",due:"Apr 15, 2026",status:"pending",upload:false}]};
+var openDrills={},openSiteTasks={};
+
+function markDrill(sid,q){ drills[sid][q]="done"; renderDrillGrid(); renderSiteAll(); updateDrillCount(); }
+function updateDrillCount(){ var done=0,tot=0; SITES.forEach(function(s){QS.forEach(function(q){tot++;if(drills[s.id][q]==="done")done++;});}); document.getElementById("drill-count").textContent=done+"/"+tot; document.getElementById("drill-bar").style.width=Math.round(done/tot*100)+"%"; document.getElementById("drill-summary").textContent=done+"/"+tot+" complete"; }
+function renderDrillGrid(){ document.getElementById("drill-grid").innerHTML=SITES.map(function(s){ return '<div class="drill-cell"><div class="drill-site">'+s.name+'</div>'+QS.map(function(q){ var st=drills[s.id][q];var isDone=st==="done";var isPend=st==="pending"; return '<div class="drill-q"><div class="ck '+(isDone?"ok":isPend?"warn":"em")+'">'+(isDone?"&#10003;":isPend?"~":"")+'</div><div class="drill-q-l" style="font-size:11px">'+q+'</div>'+((!isDone&&isPend)?'<button class="btn sm" data-markdrill="'+s.id+'|'+q+'">Done</button>':"")+'</div>'; }).join("")+'</div>'; }).join(""); }
+
+function buildSiteContent(sids, compact){
+  var html="";
+  sids.forEach(function(sid){
+    var s=SITES.find(function(x){return x.id===sid;});
+    var dt=siteTasks[sid]||[];
+    if(!compact) html+='<div class="sec-t">'+s.name+' - fire drills<span>'+QS.filter(function(q){return drills[sid][q]==="done";}).length+'/4</span></div>';
+    QS.forEach(function(q){
+      var st=drills[sid][q];var isDone=st==="done";var isPend=st==="pending";
+      var tid="dr_"+sid+"_"+q.replace(/\s/g,"_");
+      html+='<div style="background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" data-drillid="'+tid+'"><div class="ck '+(isDone?"ok":isPend?"warn":"em")+'">'+(isDone?"&#10003;":isPend?"~":"")+'</div><div style="flex:1;font-size:12px;font-weight:600">Fire drill - '+s.name+' - '+q+'</div>'+(isDone?'<span class="bdg ok">Complete</span>':isPend?'<span class="bdg warn">Pending</span>':'<span class="bdg neu">Upcoming</span>')+'</div><div id="'+tid+'" class="task-body'+(openDrills[tid]?" open":"")+'"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Required: </span>Signed staff sign-in sheet</div>'+(isDone?'<div class="done-banner">&#10003; Completed - sign-in sheet on file</div>':'<button class="btn suc" data-markdrill="'+sid+'|'+q+'">Mark complete & upload sign-in</button><div class="upload-zone" data-markdrill="'+sid+'|'+q+'">Click to attach sign-in sheet</div>')+'</div></div>';
+    });
+    html+='<div class="sec-t" style="margin-top:10px">'+(compact?"":s.name+" - ")+'Safety tasks<span>'+dt.filter(function(t){return t.status!=="done";}).length+' open</span></div>';
+    dt.forEach(function(t){
+      var isDone=t.status==="done";var isOver=t.status==="overdue";
+      html+='<div style="background:var(--bg-primary);border:0.5px solid '+(isOver?"var(--border-danger)":"var(--border-light)")+';border-radius:var(--radius-lg);margin-bottom:7px;overflow:hidden"><div style="display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer" data-stid="'+sid+'|'+t.id+'"><div class="ck '+(isDone?"ok":isOver?"err":"warn")+'">'+(isDone?"&#10003;":isOver?"!":"~")+'</div><div style="flex:1;font-size:12px;font-weight:600">'+t.name+'</div>'+(isDone?'<span class="bdg ok">Complete</span>':isOver?'<span class="bdg err">Overdue</span>':'<span class="bdg warn">Pending</span>')+'</div><div id="st_'+t.id+'" class="task-body'+(openSiteTasks[t.id]?" open":"")+'"><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Category: </span>'+t.cat+'</div><div style="font-size:12px;margin-bottom:5px"><span style="color:var(--text-secondary)">Due: </span><span style="'+(isOver?"color:var(--text-danger)":"")+'">'+ t.due+'</span></div>'+(isDone?'<div class="done-banner">&#10003; Completed</div>':'<button class="btn suc" data-donest="'+sid+'|'+t.id+'">Mark complete'+(t.upload?" & upload":"")+'</button>'+(t.upload?'<div class="upload-zone" data-donest="'+sid+'|'+t.id+'">Click to attach document</div>':""))+'</div></div>';
+    });
+    if(!compact) html+='<div style="margin-bottom:20px"></div>';
+  });
+  return html;
+}
+function renderSiteAll(){ document.getElementById("site-all").innerHTML=buildSiteContent(["bp","16","wb","rm"],false); document.getElementById("site-bp").innerHTML=buildSiteContent(["bp"],true); document.getElementById("site-16").innerHTML=buildSiteContent(["16"],true); document.getElementById("site-wb").innerHTML=buildSiteContent(["wb"],true); document.getElementById("site-rm").innerHTML=buildSiteContent(["rm"],true); }
+function doneST(sid,id){ var t=(siteTasks[sid]||[]).find(function(x){return x.id===id;}); if(t)t.status="done"; renderSiteAll(); }
+
+var FOLDERS=[{name:"Clinical Policies",col:"#0C447C"},{name:"Board & Governance",col:"#26215C"},{name:"Quality & QI",col:"#27500A"},{name:"Compliance & Audits",col:"#791F1F"},{name:"HR / Personnel",col:"#633806"},{name:"Site Records",col:"#3B6D11"},{name:"Contracts & Vendors",col:"#854F0B"},{name:"Incident Reports",col:"#A32D2D"},{name:"Workflows",col:"#185FA5"}];
+var docs=[
   {name:"CLIN-001 Credentialing & Privileging Policy",folder:"Clinical Policies",updated:"Apr 13, 2026",status:"Current"},
   {name:"CLIN-002 Scope of Services & Accessible Hours",folder:"Clinical Policies",updated:"Apr 14, 2026",status:"Current"},
   {name:"CLIN-003 After-Hours & Emergency Coverage",folder:"Clinical Policies",updated:"Apr 13, 2026",status:"Current"},
   {name:"CLIN-004 Language Access & Cultural Competency",folder:"Clinical Policies",updated:"Apr 13, 2026",status:"Current"},
   {name:"CLIN-005 Referral Tracking Policy",folder:"Clinical Policies",updated:"Apr 14, 2026",status:"Current"},
   {name:"CLIN-006 QA/QI Program Policy",folder:"Clinical Policies",updated:"Apr 14, 2026",status:"Review due"},
-  {name:"Board Meeting Minutes — April 2026",folder:"Board & Governance",updated:"Apr 18, 2026",status:"Current"},
-  {name:"Board Meeting Minutes — March 2026",folder:"Board & Governance",updated:"Mar 20, 2026",status:"Current"},
-  {name:"CQC Committee Meeting Minutes — April 2026",folder:"Board & Governance",updated:"Apr 12, 2026",status:"Current"},
-  {name:"CQC Committee Meeting Minutes — March 2026",folder:"Board & Governance",updated:"Mar 14, 2026",status:"Current"},
-  {name:"QI Project Dashboard — April 2026",folder:"Quality & QI",updated:"Apr 21, 2026",status:"Current"},
-  {name:"Patient Satisfaction Survey — Q1 2026",folder:"Quality & QI",updated:"Apr 10, 2026",status:"Current"},
-  {name:"Patient Satisfaction Survey — Q4 2025",folder:"Quality & QI",updated:"Jan 12, 2026",status:"Current"},
-  {name:"Accident / Incident Report — Apr 5, 2026",folder:"Incident Reports",updated:"Apr 5, 2026",status:"Open"},
-  {name:"Accident / Incident Report — Mar 12, 2026",folder:"Incident Reports",updated:"Mar 12, 2026",status:"Closed"},
+  {name:"Board Meeting Minutes - April 2026",folder:"Board & Governance",updated:"Apr 18, 2026",status:"Current"},
+  {name:"Board Meeting Minutes - March 2026",folder:"Board & Governance",updated:"Mar 20, 2026",status:"Current"},
+  {name:"CQC Committee Meeting Minutes - April 2026",folder:"Board & Governance",updated:"Apr 12, 2026",status:"Current"},
+  {name:"CQC Committee Meeting Minutes - March 2026",folder:"Board & Governance",updated:"Mar 14, 2026",status:"Current"},
+  {name:"QI Project Dashboard - April 2026",folder:"Quality & QI",updated:"Apr 21, 2026",status:"Current"},
+  {name:"Patient Satisfaction Survey - Q1 2026",folder:"Quality & QI",updated:"Apr 10, 2026",status:"Current"},
+  {name:"Accident / Incident Report - Apr 5, 2026",folder:"Incident Reports",updated:"Apr 5, 2026",status:"Open"},
+  {name:"Accident / Incident Report - Mar 12, 2026",folder:"Incident Reports",updated:"Mar 12, 2026",status:"Closed"},
   {name:"CQC 7-Member Committee Charter",folder:"Compliance & Audits",updated:"Apr 21, 2026",status:"Current"},
-  {name:"Chart Audit Form — April 2026",folder:"Compliance & Audits",updated:"Apr 18, 2026",status:"Current"},
-  {name:"Billing Audit Log — April 2026",folder:"Compliance & Audits",updated:"Apr 15, 2026",status:"Current"},
-  {name:"CLIA Certificate — Bay Parkway",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
-  {name:"CLIA Certificate — 16th Ave",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
-  {name:"CLIA Certificate — Williamsburg",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
-  {name:"CLIA Certificate — Rambam",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
-  {name:"QC Log — Bay Parkway — April 2026",folder:"Site Records",updated:"Apr 21, 2026",status:"Current"},
-  {name:"QC Log — 16th Ave — April 2026",folder:"Site Records",updated:"Apr 21, 2026",status:"Current"},
-  {name:"QC Log — Williamsburg — April 2026",folder:"Site Records",updated:"Apr 18, 2026",status:"Current"},
-  {name:"QC Log — Rambam — April 2026",folder:"Site Records",updated:"Apr 10, 2026",status:"Missing"},
-  {name:"Medication & Supply Log — Bay Parkway",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
-  {name:"Medication & Supply Log — 16th Ave",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
-  {name:"Medication & Supply Log — Williamsburg",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
-  {name:"Medication & Supply Log — Rambam",folder:"Site Records",updated:"Mar 1, 2026",status:"Overdue"},
-  {name:"Vendor Contract — Medical Waste Services",folder:"Contracts & Vendors",updated:"Mar 31, 2025",status:"Expired"},
-  {name:"Vendor Contract — Lab Services (Quest)",folder:"Contracts & Vendors",updated:"Jan 1, 2026",status:"Current"},
-  {name:"Vendor Contract — eClinicalWorks EHR",folder:"Contracts & Vendors",updated:"Jan 1, 2026",status:"Current"},
-  {name:"Vendor Contract — Healthix HIE",folder:"Contracts & Vendors",updated:"Feb 1, 2026",status:"Current"},
-  {name:"BAA — Ahava Medical",folder:"Contracts & Vendors",updated:"Mar 15, 2026",status:"Current"},
+  {name:"Chart Audit Form - April 2026",folder:"Compliance & Audits",updated:"Apr 18, 2026",status:"Current"},
+  {name:"CLIA Certificate - Bay Parkway",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
+  {name:"CLIA Certificate - 16th Ave",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
+  {name:"CLIA Certificate - Williamsburg",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
+  {name:"CLIA Certificate - Rambam",folder:"Site Records",updated:"Jan 1, 2026",status:"Current"},
+  {name:"QC Log - Bay Parkway - April 2026",folder:"Site Records",updated:"Apr 21, 2026",status:"Current"},
+  {name:"QC Log - 16th Ave - April 2026",folder:"Site Records",updated:"Apr 21, 2026",status:"Current"},
+  {name:"QC Log - Williamsburg - April 2026",folder:"Site Records",updated:"Apr 18, 2026",status:"Current"},
+  {name:"QC Log - Rambam - April 2026",folder:"Site Records",updated:"Apr 10, 2026",status:"Missing"},
+  {name:"Medication & Supply Log - Bay Parkway",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
+  {name:"Medication & Supply Log - 16th Ave",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
+  {name:"Medication & Supply Log - Williamsburg",folder:"Site Records",updated:"Apr 1, 2026",status:"Current"},
+  {name:"Medication & Supply Log - Rambam",folder:"Site Records",updated:"Mar 1, 2026",status:"Overdue"},
+  {name:"Vendor Contract - Medical Waste Services",folder:"Contracts & Vendors",updated:"Mar 31, 2025",status:"Expired"},
+  {name:"Vendor Contract - Lab Services (Quest)",folder:"Contracts & Vendors",updated:"Jan 1, 2026",status:"Current"},
+  {name:"Vendor Contract - eClinicalWorks EHR",folder:"Contracts & Vendors",updated:"Jan 1, 2026",status:"Current"},
+  {name:"Vendor Contract - Healthix HIE",folder:"Contracts & Vendors",updated:"Feb 1, 2026",status:"Current"},
+  {name:"BAA - Ahava Medical",folder:"Contracts & Vendors",updated:"Mar 15, 2026",status:"Current"},
   {name:"Healthix HIE Staff Workflow Guide v2",folder:"Workflows",updated:"Apr 21, 2026",status:"Current"},
   {name:"eCW Reports & Metrics Guide",folder:"Workflows",updated:"Apr 21, 2026",status:"Current"},
   {name:"HIPAA Training Completion Log",folder:"HR / Personnel",updated:"Apr 10, 2026",status:"Incomplete"},
   {name:"Staff Onboarding Checklist",folder:"HR / Personnel",updated:"Apr 5, 2026",status:"Current"},
   {name:"Provider Credentialing Tracker",folder:"HR / Personnel",updated:"Apr 21, 2026",status:"Current"},
 ];
-let docSearch="",docFF="";
+var docSearch="",docFF="";
 function renderDocs(){
-  const sb=document.getElementById("folder-sb");
-  sb.innerHTML=`<div class="sec-t" style="margin-bottom:8px">Folders</div><div class="folder-row ${!docFF?"active":""}" onclick="setDocFolder('')"><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">All</span><span style="font-size:10px;color:var(--text-tertiary)">${docs.length}</span></div>${FOLDERS.map(f=>{const cnt=docs.filter(d=>d.folder===f.name).length;const isA=docFF===f.name;return`<div class="folder-row ${isA?"active":""}" onclick="setDocFolder('${f.name}')"><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="${isA?"currentColor":f.col}" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">${f.name}</span><span style="font-size:10px;color:var(--text-tertiary)">${cnt}</span></div>`;}).join("")}`;
-  const shown=docs.filter(d=>{const q=docSearch.toLowerCase();const fm=!docFF||d.folder===docFF;return fm&&(!q||d.name.toLowerCase().includes(q));});
-  const sc=s=>s==="Current"?"color:var(--text-success)":s==="Expired"||s==="Overdue"||s==="Missing"||s==="Incomplete"?"color:var(--text-danger)":s==="Open"?"color:var(--text-warning)":"color:var(--text-tertiary)";
-  document.getElementById("doc-tbody").innerHTML=shown.map(d=>`<tr><td style="font-weight:500">${d.name}</td><td style="color:var(--text-secondary);font-size:11px">${d.folder}</td><td style="color:var(--text-tertiary);font-size:11px">${d.updated}</td><td style="${sc(d.status)};font-size:11px">${d.status}</td><td><a style="color:var(--text-info);cursor:pointer;font-size:11px">View</a></td></tr>`).join("");
-  document.getElementById("folder-filter").value=docFF;
+  var sb=document.getElementById("folder-sb");
+  sb.innerHTML='<div class="sec-t" style="margin-bottom:8px">Folders</div><div class="folder-row'+(docFF?"":' active')+'" data-folder=""><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">All</span><span style="font-size:10px;color:var(--text-tertiary)">'+docs.length+'</span></div>'+FOLDERS.map(function(f){var cnt=docs.filter(function(d){return d.folder===f.name;}).length;var isA=docFF===f.name;return '<div class="folder-row'+(isA?" active":"")+'" data-folder="'+f.name+'"><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="'+(isA?"currentColor":f.col)+'" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">'+f.name+'</span><span style="font-size:10px;color:var(--text-tertiary)">'+cnt+'</span></div>';}).join("");
+  var shown=docs.filter(function(d){var q=docSearch.toLowerCase();var fm=!docFF||d.folder===docFF;return fm&&(!q||d.name.toLowerCase().includes(q));});
+  function sc(s){return s==="Current"?"color:var(--text-success)":s==="Expired"||s==="Overdue"||s==="Missing"||s==="Incomplete"?"color:var(--text-danger)":s==="Open"?"color:var(--text-warning)":"color:var(--text-tertiary)";}
+  document.getElementById("doc-tbody").innerHTML=shown.map(function(d){return '<tr><td style="font-weight:500">'+d.name+'</td><td style="color:var(--text-secondary);font-size:11px">'+d.folder+'</td><td style="color:var(--text-tertiary);font-size:11px">'+d.updated+'</td><td style="'+sc(d.status)+';font-size:11px">'+d.status+'</td><td><a style="color:var(--text-info);cursor:pointer;font-size:11px">View</a></td></tr>';}).join("");
+  document.getElementById("doc-folder-select").value=docFF;
 }
-function filterDocs(v){docSearch=v;renderDocs();}
-function setDocFolder(f){docFF=f;renderDocs();}
 
-const compData=[
-  {cat:"HRSA chapter requirements",score:"6/8",items:[{s:"ok",l:"CLIN-001 Credentialing & Privileging Policy",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-002 Scope of Services & Accessible Hours",who:"CEO",due:"Complete"},{s:"ok",l:"CLIN-003 After-Hours & Emergency Coverage",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-004 Language Access & Cultural Competency",who:"COO",due:"Complete"},{s:"ok",l:"CLIN-005 Referral Tracking Policy",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-006 QA/QI Program Policy",who:"Med Director",due:"Complete"},{s:"warn",l:"Sliding fee scale — Board approval",who:"CEO / Board",due:"Apr 30"},{s:"err",l:"UDS annual data submission",who:"QI Coordinator",due:"Overdue"}]},
-  {cat:"NYS Article 28 — DOH requirements",score:"4/7",items:[{s:"ok",l:"Operating certificate current and posted",who:"CEO",due:"Current"},{s:"ok",l:"Infection control plan reviewed",who:"Med Director",due:"Complete"},{s:"ok",l:"Patient rights notice posted at all sites",who:"COO",due:"Complete"},{s:"ok",l:"Incident reporting log maintained",who:"Compliance Officer",due:"Complete"},{s:"warn",l:"Fire safety drill documentation — all sites",who:"Site Managers",due:"Ongoing"},{s:"err",l:"Medical waste disposal contract renewal",who:"Operations",due:"Overdue"},{s:"err",l:"Annual DOH self-inspection form submission",who:"CEO",due:"Overdue"}]},
-  {cat:"Quality & governance",score:"4/6",items:[{s:"ok",l:"Board meeting minutes — filed monthly",who:"Board Secretary",due:"Current"},{s:"ok",l:"CQC compliance & quality meeting minutes",who:"Director of Ops",due:"Current"},{s:"ok",l:"Patient satisfaction survey — Q1 2026",who:"QI Coordinator",due:"Filed"},{s:"warn",l:"Patient satisfaction survey — Q2 2026",who:"QI Coordinator",due:"Jun 30"},{s:"warn",l:"Accident / incident reports — open item",who:"Compliance Officer",due:"Apr 5 open"},{s:"warn",l:"QI project dashboard — monthly updates",who:"QI Coordinator",due:"Current"}]},
-  {cat:"CLIA & laboratory",score:"4/5",items:[{s:"ok",l:"CLIA certificate — Bay Parkway",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate — 16th Ave",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate — Williamsburg",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate — Rambam",who:"Site Manager",due:"Current"},{s:"warn",l:"CLIA renewal tracking — all sites (due Q3)",who:"Compliance Officer",due:"Jul 1"}]},
-  {cat:"Site operations records",score:"3/6",items:[{s:"ok",l:"QC logs — Bay Parkway (current)",who:"Site Manager",due:"Current"},{s:"ok",l:"QC logs — 16th Ave (current)",who:"Site Manager",due:"Current"},{s:"ok",l:"QC logs — Williamsburg (current)",who:"Site Manager",due:"Current"},{s:"err",l:"QC logs — Rambam (April missing)",who:"Site Mgr — Rambam",due:"Overdue"},{s:"ok",l:"Medication logs — Bay Pkwy, 16th, Wburg",who:"Site Managers",due:"Current"},{s:"err",l:"Medication log — Rambam (overdue)",who:"Site Mgr — Rambam",due:"Overdue"}]},
-  {cat:"Contracts & vendor agreements",score:"4/5",items:[{s:"ok",l:"Vendor contract — eClinicalWorks EHR",who:"Operations",due:"Current"},{s:"ok",l:"Vendor contract — Lab services (Quest)",who:"Operations",due:"Current"},{s:"ok",l:"Vendor contract — Healthix HIE",who:"Compliance Officer",due:"Current"},{s:"ok",l:"BAA — all covered vendors on file",who:"Compliance Officer",due:"Current"},{s:"err",l:"Medical waste disposal contract — expired",who:"Operations",due:"Overdue"}]},
-  {cat:"HIPAA & privacy",score:"3/5",items:[{s:"ok",l:"HIPAA Privacy & Security policies current",who:"Compliance Officer",due:"Complete"},{s:"ok",l:"Business Associate Agreements — all vendors",who:"Compliance Officer",due:"Complete"},{s:"ok",l:"Healthix HIE consent workflow live",who:"Front Desk",due:"Complete"},{s:"err",l:"Annual staff HIPAA training — 2 staff incomplete",who:"All staff",due:"Overdue"},{s:"warn",l:"Annual Security Risk Assessment (SRA)",who:"IT / Compliance",due:"May 15"}]},
-  {cat:"Annual trainings — all staff",score:"Varies",items:[{s:"warn",l:"HIPAA — 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Active Shooter — 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Infection Control / OSHA — 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Workplace Violence — 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Emergency Preparedness — 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Patient Rights / Cultural Competency — 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Human Trafficking — 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Sexual Harassment — 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Fraud, Waste & Abuse — 1 incomplete",who:"All staff",due:"Annual"}]},
-  {cat:"HR & credentialing",score:"2/4",items:[{s:"ok",l:"All provider licenses current — verified in Modio",who:"HR / Credentialing",due:"Current"},{s:"ok",l:"OIG/SAM exclusion monitoring — monthly",who:"Credentialing",due:"Apr 21"},{s:"warn",l:"Re-credentialing — 2 providers due",who:"HR / Med Director",due:"Apr 25"},{s:"warn",l:"New staff orientation checklist — 1 pending",who:"HR",due:"Apr 28"}]},
+var compData=[
+  {cat:"HRSA chapter requirements",score:"6/8",items:[{s:"ok",l:"CLIN-001 Credentialing & Privileging Policy",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-002 Scope of Services & Accessible Hours",who:"CEO",due:"Complete"},{s:"ok",l:"CLIN-003 After-Hours & Emergency Coverage",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-004 Language Access & Cultural Competency",who:"COO",due:"Complete"},{s:"ok",l:"CLIN-005 Referral Tracking Policy",who:"Med Director",due:"Complete"},{s:"ok",l:"CLIN-006 QA/QI Program Policy",who:"Med Director",due:"Complete"},{s:"warn",l:"Sliding fee scale - Board approval",who:"CEO / Board",due:"Apr 30"},{s:"err",l:"UDS annual data submission",who:"QI Coordinator",due:"Overdue"}]},
+  {cat:"NYS Article 28 - DOH requirements",score:"4/7",items:[{s:"ok",l:"Operating certificate current and posted",who:"CEO",due:"Current"},{s:"ok",l:"Infection control plan reviewed",who:"Med Director",due:"Complete"},{s:"ok",l:"Patient rights notice posted at all sites",who:"COO",due:"Complete"},{s:"ok",l:"Incident reporting log maintained",who:"Compliance Officer",due:"Complete"},{s:"warn",l:"Fire safety drill documentation - all sites",who:"Site Managers",due:"Ongoing"},{s:"err",l:"Medical waste disposal contract renewal",who:"Operations",due:"Overdue"},{s:"err",l:"Annual DOH self-inspection form submission",who:"CEO",due:"Overdue"}]},
+  {cat:"Quality & governance",score:"4/6",items:[{s:"ok",l:"Board meeting minutes - filed monthly",who:"Board Secretary",due:"Current"},{s:"ok",l:"CQC compliance & quality meeting minutes",who:"Director of Ops",due:"Current"},{s:"ok",l:"Patient satisfaction survey - Q1 2026",who:"QI Coordinator",due:"Filed"},{s:"warn",l:"Patient satisfaction survey - Q2 2026",who:"QI Coordinator",due:"Jun 30"},{s:"warn",l:"Accident / incident reports - open item",who:"Compliance Officer",due:"Apr 5 open"},{s:"warn",l:"QI project dashboard - monthly updates",who:"QI Coordinator",due:"Current"}]},
+  {cat:"CLIA & laboratory",score:"4/5",items:[{s:"ok",l:"CLIA certificate - Bay Parkway",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate - 16th Ave",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate - Williamsburg",who:"Site Manager",due:"Current"},{s:"ok",l:"CLIA certificate - Rambam",who:"Site Manager",due:"Current"},{s:"warn",l:"CLIA renewal tracking - all sites (due Q3)",who:"Compliance Officer",due:"Jul 1"}]},
+  {cat:"Site operations records",score:"3/6",items:[{s:"ok",l:"QC logs - Bay Parkway (current)",who:"Site Manager",due:"Current"},{s:"ok",l:"QC logs - 16th Ave (current)",who:"Site Manager",due:"Current"},{s:"ok",l:"QC logs - Williamsburg (current)",who:"Site Manager",due:"Current"},{s:"err",l:"QC logs - Rambam (April missing)",who:"Site Mgr - Rambam",due:"Overdue"},{s:"ok",l:"Medication logs - Bay Pkwy, 16th, Wburg",who:"Site Managers",due:"Current"},{s:"err",l:"Medication log - Rambam (overdue)",who:"Site Mgr - Rambam",due:"Overdue"}]},
+  {cat:"Contracts & vendor agreements",score:"4/5",items:[{s:"ok",l:"Vendor contract - eClinicalWorks EHR",who:"Operations",due:"Current"},{s:"ok",l:"Vendor contract - Lab services (Quest)",who:"Operations",due:"Current"},{s:"ok",l:"Vendor contract - Healthix HIE",who:"Compliance Officer",due:"Current"},{s:"ok",l:"BAA - all covered vendors on file",who:"Compliance Officer",due:"Current"},{s:"err",l:"Medical waste disposal contract - expired",who:"Operations",due:"Overdue"}]},
+  {cat:"HIPAA & privacy",score:"3/5",items:[{s:"ok",l:"HIPAA Privacy & Security policies current",who:"Compliance Officer",due:"Complete"},{s:"ok",l:"Business Associate Agreements - all vendors",who:"Compliance Officer",due:"Complete"},{s:"ok",l:"Healthix HIE consent workflow live",who:"Front Desk",due:"Complete"},{s:"err",l:"Annual staff HIPAA training - 2 staff incomplete",who:"All staff",due:"Overdue"},{s:"warn",l:"Annual Security Risk Assessment (SRA)",who:"IT / Compliance",due:"May 15"}]},
+  {cat:"Annual trainings - all staff",score:"Varies",items:[{s:"warn",l:"HIPAA - 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Active Shooter - 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Infection Control / OSHA - 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Workplace Violence - 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Emergency Preparedness - 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Patient Rights / Cultural Competency - 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Human Trafficking - 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Sexual Harassment - 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Fraud, Waste & Abuse - 1 incomplete",who:"All staff",due:"Annual"}]},
+  {cat:"HR & credentialing",score:"2/4",items:[{s:"ok",l:"All provider licenses current - verified in Modio",who:"HR / Credentialing",due:"Current"},{s:"ok",l:"OIG/SAM exclusion monitoring - monthly",who:"Credentialing",due:"Apr 21"},{s:"warn",l:"Re-credentialing - 2 providers due",who:"HR / Med Director",due:"Apr 25"},{s:"warn",l:"New staff orientation checklist - 1 pending",who:"HR",due:"Apr 28"}]},
 ];
-function renderComp(){document.getElementById("comp-body").innerHTML=compData.map(sec=>`<div style="margin-bottom:18px"><div class="sec-t">${sec.cat}<span>${sec.score}</span></div>${sec.items.map(item=>`<div class="row"><div class="ck ${item.s}">${item.s==="ok"?"&#10003;":item.s==="err"?"!":"~"}</div><div style="flex:1;font-size:12px">${item.l}</div><div style="font-size:11px;color:var(--text-tertiary);min-width:100px;text-align:right">${item.who}</div><div style="font-size:11px;min-width:65px;text-align:right;${item.due==="Overdue"||item.due==="Expired"?"color:var(--text-danger)":item.due==="Complete"||item.due==="Current"||item.due==="Done"||item.due==="Filed"?"color:var(--text-success)":"color:var(--text-warning)"}">${item.due}</div></div>`).join("")}</div>`).join("");}
+function renderComp(){
+  document.getElementById("comp-body").innerHTML=compData.map(function(sec){
+    return '<div style="margin-bottom:18px"><div class="sec-t">'+sec.cat+'<span>'+sec.score+'</span></div>'+sec.items.map(function(item){
+      return '<div class="row"><div class="ck '+item.s+'">'+(item.s==="ok"?"&#10003;":item.s==="err"?"!":"~")+'</div><div style="flex:1;font-size:12px">'+item.l+'</div><div style="font-size:11px;color:var(--text-tertiary);min-width:100px;text-align:right">'+item.who+'</div><div style="font-size:11px;min-width:65px;text-align:right;'+(item.due==="Overdue"||item.due==="Expired"?"color:var(--text-danger)":item.due==="Complete"||item.due==="Current"||item.due==="Done"||item.due==="Filed"?"color:var(--text-success)":"color:var(--text-warning)")+'">'+item.due+'</div></div>';
+    }).join("")+'</div>';
+  }).join("");
+}
+
+// ── Single delegated event listener for EVERYTHING ──────────────────────────
+document.addEventListener("click", function(e) {
+  var el = e.target;
+  // Walk up max 5 levels to find the right element
+  for (var i = 0; i < 5; i++) {
+    if (!el || el === document.body) break;
+
+    // Nav items
+    if (el.dataset && el.dataset.nav) { nav(el.dataset.nav); return; }
+    // Action buttons
+    if (el.dataset && el.dataset.action) {
+      var a = el.dataset.action;
+      if (a === "open-emp-modal") { openM("emp-modal"); return; }
+      if (a === "close-emp-modal") { closeM("emp-modal"); return; }
+      if (a === "add-emp") { addEmp(); return; }
+      if (a === "open-lms-modal") { openM("lms-modal"); return; }
+      if (a === "close-lms-modal") { closeM("lms-modal"); return; }
+      if (a === "open-task-modal") { openM("task-modal"); return; }
+      if (a === "close-task-modal") { closeM("task-modal"); return; }
+      if (a === "create-task") { createTask(); return; }
+    }
+    // Site tabs
+    if (el.dataset && el.dataset.site) { switchSite(el.dataset.site); return; }
+    // Folder rows
+    if (el.dataset && el.dataset.folder !== undefined && el.classList.contains("folder-row")) { docFF = el.dataset.folder; renderDocs(); return; }
+    // Employee expand
+    if (el.dataset && el.dataset.empid) { togEmp(el.dataset.empid); return; }
+    // Mark training done
+    if (el.dataset && el.dataset.marktr) { var p=el.dataset.marktr.split("|"); markTr(p[0],p[1]); return; }
+    // LMS toggle
+    if (el.dataset && el.dataset.lmsid) { togLMS(el.dataset.lmsid); return; }
+    // Task toggle
+    if (el.dataset && el.dataset.taskid) { var b=document.getElementById("tbody-"+el.dataset.taskid); if(b)b.classList.toggle("open"); return; }
+    // Done task
+    if (el.dataset && el.dataset.donetask) { doneTask(el.dataset.donetask); return; }
+    // Drill toggle
+    if (el.dataset && el.dataset.drillid) { var db=document.getElementById(el.dataset.drillid); if(db)db.classList.toggle("open"); return; }
+    // Mark drill done
+    if (el.dataset && el.dataset.markdrill) { var dp=el.dataset.markdrill.split("|"); markDrill(dp[0],dp.slice(1).join("|")); return; }
+    // Site task toggle
+    if (el.dataset && el.dataset.stid) { var sp=el.dataset.stid.split("|"); var sb=document.getElementById("st_"+sp[1]); if(sb)sb.classList.toggle("open"); return; }
+    // Done site task
+    if (el.dataset && el.dataset.donest) { var dsp=el.dataset.donest.split("|"); doneST(dsp[0],dsp[1]); return; }
+
+    el = el.parentElement;
+  }
+});
+
+// Input listeners
+document.addEventListener("input", function(e) {
+  if (e.target.id === "emp-search") { empF = e.target.value; renderEmp(); }
+  if (e.target.id === "tr-staff-search") { trFilter = e.target.value; renderTraining(); }
+  if (e.target.id === "doc-search-input") { docSearch = e.target.value; renderDocs(); }
+});
+document.addEventListener("change", function(e) {
+  if (e.target.id === "emp-dept-filter") { empDF = e.target.value; renderEmp(); }
+  if (e.target.id === "tr-col-filter") { trColF = e.target.value; renderTraining(); }
+  if (e.target.id === "doc-folder-select") { docFF = e.target.value; renderDocs(); }
+});
+
+})();
 </script>
 </body>
 </html>
