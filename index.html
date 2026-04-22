@@ -23,7 +23,7 @@
 --border-light:rgba(255,255,255,0.08);--border-med:rgba(255,255,255,0.14);--border-strong:rgba(255,255,255,0.22);
 }}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg-tertiary);height:100vh;overflow:hidden}
-.app{display:flex;min-height:100vh}
+.app{display:flex;height:100vh}
 .sb{width:192px;flex-shrink:0;background:var(--bg-primary);border-right:0.5px solid var(--border-light);display:flex;flex-direction:column;overflow-y:auto}
 .sb-logo{padding:14px 16px 12px;border-bottom:0.5px solid var(--border-light)}
 .sb-logo-n{font-size:15px;font-weight:600;color:var(--text-primary)}
@@ -146,18 +146,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
     <div class="sb-logo-s">Compliance &middot; LMS &middot; HRIS</div>
   </div>
   <div class="nl">Overview</div>
-  <div class="ni active" onclick="nav('dash',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>Dashboard</div>
+  <div class="ni active" data-nav="dash"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>Dashboard</div>
   <div class="nl">HRIS</div>
-  <div class="ni" onclick="nav('employees',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="5" r="3"/><path d="M1 14c0-3 2-5 5-5s5 2 5 5"/><circle cx="12" cy="5" r="2"/><path d="M14 13c0-2-1-3-2-4"/></svg>Employees</div>
-  <div class="ni" onclick="nav('depts',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v4M4 6H2v8h12V6h-2M4 6V4a4 4 0 018 0v2M4 6h8"/></svg>Departments</div>
+  <div class="ni" data-nav="employees"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="5" r="3"/><path d="M1 14c0-3 2-5 5-5s5 2 5 5"/><circle cx="12" cy="5" r="2"/><path d="M14 13c0-2-1-3-2-4"/></svg>Employees</div>
+  <div class="ni" data-nav="depts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v4M4 6H2v8h12V6h-2M4 6V4a4 4 0 018 0v2M4 6h8"/></svg>Departments</div>
   <div class="nl">LMS</div>
-  <div class="ni" onclick="nav('lms',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12L8 3l6 9H2z"/><path d="M8 3v9"/></svg>Training library</div>
-  <div class="ni" onclick="nav('training',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8l3 3 5-5"/><rect x="1" y="1" width="14" height="14" rx="2"/></svg>Training tracker</div>
+  <div class="ni" data-nav="lms"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12L8 3l6 9H2z"/><path d="M8 3v9"/></svg>Training library</div>
+  <div class="ni" data-nav="training"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8l3 3 5-5"/><rect x="1" y="1" width="14" height="14" rx="2"/></svg>Training tracker</div>
   <div class="nl">Compliance</div>
-  <div class="ni" onclick="nav('tasks',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h7M3 12h5"/><circle cx="13" cy="11" r="2.5"/><path d="M13 9.5v1.5l1 1"/></svg>Tasks</div>
-  <div class="ni" onclick="nav('site',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="12" height="8" rx="1"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>Site operations</div>
-  <div class="ni" onclick="nav('docs',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1h6l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z"/><path d="M10 1v3h3"/></svg>Documents</div>
-  <div class="ni" onclick="nav('comp',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 3 3 .5-2.2 2.1.5 3.4L8 8.5l-3.3 1.5.5-3.4L3 4.5 6 4z"/></svg>Compliance tracker</div>
+  <div class="ni" data-nav="tasks"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h7M3 12h5"/><circle cx="13" cy="11" r="2.5"/><path d="M13 9.5v1.5l1 1"/></svg>Tasks</div>
+  <div class="ni" data-nav="site"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="12" height="8" rx="1"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>Site operations</div>
+  <div class="ni" data-nav="docs"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1h6l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z"/><path d="M10 1v3h3"/></svg>Documents</div>
+  <div class="ni" data-nav="comp"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 3 3 .5-2.2 2.1.5 3.4L8 8.5l-3.3 1.5.5-3.4L3 4.5 6 4z"/></svg>Compliance tracker</div>
   <div style="flex:1"></div>
   <div class="nl">Account</div>
   <div class="ni"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>Settings</div>
@@ -366,6 +366,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 </div></div></div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+
+document.querySelectorAll('.ni[data-nav]').forEach(function(el) {
+  el.addEventListener('click', function() {
+    nav(this.getAttribute('data-nav'), this);
+  });
+});
+
+
 const PAGES={dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
 function nav(id,el){document.querySelectorAll(".pg").forEach(p=>p.classList.remove("on"));document.querySelectorAll(".ni").forEach(n=>n.classList.remove("active"));document.getElementById("pg-"+id).classList.add("on");if(el)el.classList.add("active");document.getElementById("ptitle").textContent=PAGES[id]||id;if(id==="employees")renderEmp();if(id==="lms")renderLMS();if(id==="training")renderTraining();if(id==="tasks")renderTasks();if(id==="site"){renderDrillGrid();renderSiteAll();}if(id==="docs")renderDocs();if(id==="comp")renderComp();}
 function openM(id){document.getElementById(id).classList.add("on");}
@@ -540,6 +549,8 @@ const compData=[
   {cat:"HR & credentialing",score:"2/4",items:[{s:"ok",l:"All provider licenses current — verified in Modio",who:"HR / Credentialing",due:"Current"},{s:"ok",l:"OIG/SAM exclusion monitoring — monthly",who:"Credentialing",due:"Apr 21"},{s:"warn",l:"Re-credentialing — 2 providers due",who:"HR / Med Director",due:"Apr 25"},{s:"warn",l:"New staff orientation checklist — 1 pending",who:"HR",due:"Apr 28"}]},
 ];
 function renderComp(){document.getElementById("comp-body").innerHTML=compData.map(sec=>`<div style="margin-bottom:18px"><div class="sec-t">${sec.cat}<span>${sec.score}</span></div>${sec.items.map(item=>`<div class="row"><div class="ck ${item.s}">${item.s==="ok"?"&#10003;":item.s==="err"?"!":"~"}</div><div style="flex:1;font-size:12px">${item.l}</div><div style="font-size:11px;color:var(--text-tertiary);min-width:100px;text-align:right">${item.who}</div><div style="font-size:11px;min-width:65px;text-align:right;${item.due==="Overdue"||item.due==="Expired"?"color:var(--text-danger)":item.due==="Complete"||item.due==="Current"||item.due==="Done"||item.due==="Filed"?"color:var(--text-success)":"color:var(--text-warning)"}">${item.due}</div></div>`).join("")}</div>`).join("");}
+
+});
 </script>
 </body>
 </html>
