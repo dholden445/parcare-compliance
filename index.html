@@ -826,53 +826,38 @@ function renderComp(){
 // ── Single delegated event listener for EVERYTHING ──────────────────────────
 document.addEventListener("click", function(e) {
   var el = e.target;
-  // Walk up max 5 levels to find the right element
-  for (var i = 0; i < 5; i++) {
-    if (!el || el === document.body) break;
+  while (el && el !== document.body) {
+    var d = el.dataset || {};
 
-    // Nav items
-    if (el.dataset && el.dataset.nav) { nav(el.dataset.nav); return; }
-    // Forms category filter
-    if (el.dataset && el.dataset.formcat !== undefined && el.classList.contains("folder-row")) { formsCatFilter = el.dataset.formcat; renderForms(); return; }
-    // View linked form doc
-    if (el.dataset && el.dataset.viewform) { var fd=formsData.find(function(x){return x.id===el.dataset.viewform;}); if(fd&&fd.linked)alert("Linked document: "+fd.linked); return; }
-    // Action buttons
-    if (el.dataset && el.dataset.action) {
-      var a = el.dataset.action;
-      if (a === "open-emp-modal") { openM("emp-modal"); return; }
-      if (a === "close-emp-modal") { closeM("emp-modal"); return; }
-      if (a === "add-emp") { addEmp(); return; }
-      if (a === "open-lms-modal") { openM("lms-modal"); return; }
-      if (a === "close-lms-modal") { closeM("lms-modal"); return; }
-      if (a === "open-task-modal") { openM("task-modal"); return; }
-      if (a === "close-task-modal") { closeM("task-modal"); return; }
-      if (a === "create-task") { createTask(); return; }
-      if (a === "open-form-upload-modal") { openM("form-upload-modal"); return; }
-      if (a === "close-form-upload-modal") { closeM("form-upload-modal"); return; }
-      if (a === "submit-form-upload") { addFormEntry(); return; }
+    if (d.nav) { nav(d.nav); return; }
+    if (d.formcat !== undefined && el.classList && el.classList.contains("folder-row")) { formsCatFilter = d.formcat; renderForms(); return; }
+    if (d.viewform) { var fd2=formsData.find(function(x){return x.id===d.viewform;}); if(fd2&&fd2.linked)alert("Linked: "+fd2.linked); return; }
+    if (d.action) {
+      var a = d.action;
+      if (a==="open-emp-modal") { openM("emp-modal"); return; }
+      if (a==="close-emp-modal") { closeM("emp-modal"); return; }
+      if (a==="add-emp") { addEmp(); return; }
+      if (a==="open-lms-modal") { openM("lms-modal"); return; }
+      if (a==="close-lms-modal") { closeM("lms-modal"); return; }
+      if (a==="open-task-modal") { openM("task-modal"); return; }
+      if (a==="close-task-modal") { closeM("task-modal"); return; }
+      if (a==="create-task") { createTask(); return; }
+      if (a==="open-form-upload-modal") { openM("form-upload-modal"); return; }
+      if (a==="close-form-upload-modal") { closeM("form-upload-modal"); return; }
+      if (a==="submit-form-upload") { addFormEntry(); return; }
+      return;
     }
-    // Site tabs
-    if (el.dataset && el.dataset.site) { switchSite(el.dataset.site); return; }
-    // Folder rows
-    if (el.dataset && el.dataset.folder !== undefined && el.classList.contains("folder-row")) { docFF = el.dataset.folder; renderDocs(); return; }
-    // Employee expand
-    if (el.dataset && el.dataset.empid) { togEmp(el.dataset.empid); return; }
-    // Mark training done
-    if (el.dataset && el.dataset.marktr) { var p=el.dataset.marktr.split("|"); markTr(p[0],p[1]); return; }
-    // LMS toggle
-    if (el.dataset && el.dataset.lmsid) { togLMS(el.dataset.lmsid); return; }
-    // Task toggle
-    if (el.dataset && el.dataset.taskid) { var b=document.getElementById("tbody-"+el.dataset.taskid); if(b)b.classList.toggle("open"); return; }
-    // Done task
-    if (el.dataset && el.dataset.donetask) { doneTask(el.dataset.donetask); return; }
-    // Drill toggle
-    if (el.dataset && el.dataset.drillid) { var db=document.getElementById(el.dataset.drillid); if(db)db.classList.toggle("open"); return; }
-    // Mark drill done
-    if (el.dataset && el.dataset.markdrill) { var dp=el.dataset.markdrill.split("|"); markDrill(dp[0],dp.slice(1).join("|")); return; }
-    // Site task toggle
-    if (el.dataset && el.dataset.stid) { var sp=el.dataset.stid.split("|"); var sb=document.getElementById("st_"+sp[1]); if(sb)sb.classList.toggle("open"); return; }
-    // Done site task
-    if (el.dataset && el.dataset.donest) { var dsp=el.dataset.donest.split("|"); doneST(dsp[0],dsp[1]); return; }
+    if (d.site) { switchSite(d.site); return; }
+    if (d.folder !== undefined && el.classList && el.classList.contains("folder-row")) { docFF = d.folder; renderDocs(); return; }
+    if (d.empid) { togEmp(d.empid); return; }
+    if (d.marktr) { var p=d.marktr.split("|"); markTr(p[0],p[1]); return; }
+    if (d.lmsid) { togLMS(d.lmsid); return; }
+    if (d.taskid) { var tb=document.getElementById("tbody-"+d.taskid); if(tb)tb.classList.toggle("open"); return; }
+    if (d.donetask) { doneTask(d.donetask); return; }
+    if (d.drillid) { var db=document.getElementById(d.drillid); if(db)db.classList.toggle("open"); return; }
+    if (d.markdrill) { var dp=d.markdrill.split("|"); markDrill(dp[0],dp.slice(1).join("|")); return; }
+    if (d.stid) { var sp=d.stid.split("|"); var stb=document.getElementById("st_"+sp[1]); if(stb)stb.classList.toggle("open"); return; }
+    if (d.donest) { var dsp=d.donest.split("|"); doneST(dsp[0],dsp[1]); return; }
 
     el = el.parentElement;
   }
