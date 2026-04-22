@@ -366,20 +366,51 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 </div></div></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+// Navigation - defined at window level for maximum compatibility
+window.nav = function(id, el) {
+  var pages = document.querySelectorAll('.pg');
+  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('on');
+  var navItems = document.querySelectorAll('.ni');
+  for (var i = 0; i < navItems.length; i++) navItems[i].classList.remove('active');
+  var target = document.getElementById('pg-' + id);
+  if (target) target.classList.add('on');
+  if (el) el.classList.add('active');
+  var titles = {dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
+  var titleEl = document.getElementById('ptitle');
+  if (titleEl) titleEl.textContent = titles[id] || id;
+  if (id === 'employees') renderEmp();
+  if (id === 'lms') renderLMS();
+  if (id === 'training') renderTraining();
+  if (id === 'tasks') renderTasks();
+  if (id === 'site') { renderDrillGrid(); renderSiteAll(); }
+  if (id === 'docs') renderDocs();
+  if (id === 'comp') renderComp();
+};
 
-document.querySelectorAll('.ni[data-nav]').forEach(function(el) {
-  el.addEventListener('click', function() {
-    nav(this.getAttribute('data-nav'), this);
-  });
-});
+window.openM = function(id) { document.getElementById(id).classList.add('on'); };
+window.closeM = function(id) { document.getElementById(id).classList.remove('on'); };
 
+// Attach nav listeners after DOM is ready - multiple methods for compatibility
+function attachNav() {
+  var items = document.querySelectorAll('.ni[data-nav]');
+  for (var i = 0; i < items.length; i++) {
+    (function(el) {
+      el.onclick = function(e) {
+        e.preventDefault();
+        window.nav(el.getAttribute('data-nav'), el);
+      };
+    })(items[i]);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', attachNav);
+} else {
+  attachNav();
+}
+window.addEventListener('load', attachNav);
 
 const PAGES={dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
-function nav(id,el){document.querySelectorAll(".pg").forEach(p=>p.classList.remove("on"));document.querySelectorAll(".ni").forEach(n=>n.classList.remove("active"));document.getElementById("pg-"+id).classList.add("on");if(el)el.classList.add("active");document.getElementById("ptitle").textContent=PAGES[id]||id;if(id==="employees")renderEmp();if(id==="lms")renderLMS();if(id==="training")renderTraining();if(id==="tasks")renderTasks();if(id==="site"){renderDrillGrid();renderSiteAll();}if(id==="docs")renderDocs();if(id==="comp")renderComp();}
-function openM(id){document.getElementById(id).classList.add("on");}
-function closeM(id){document.getElementById(id).classList.remove("on");}
-
 const TRS=["HIPAA","Active Shooter","HIV Consent","Inf. Control","Wkpl Violence","FWA","Sex. Harass.","Emerg. Prep.","Pt Rights","Human Traffick.","Mand. Reporter"];
 const TRF=["HIPAA Privacy & Security","Active Shooter Response","HIV Informed Consent","Infection Control / OSHA","Workplace Violence Prevention","Fraud, Waste & Abuse","Sexual Harassment Prevention","Emergency Preparedness","Patient Rights / Cultural Competency","Human Trafficking Recognition","Mandated Reporter"];
 
@@ -549,8 +580,6 @@ const compData=[
   {cat:"HR & credentialing",score:"2/4",items:[{s:"ok",l:"All provider licenses current — verified in Modio",who:"HR / Credentialing",due:"Current"},{s:"ok",l:"OIG/SAM exclusion monitoring — monthly",who:"Credentialing",due:"Apr 21"},{s:"warn",l:"Re-credentialing — 2 providers due",who:"HR / Med Director",due:"Apr 25"},{s:"warn",l:"New staff orientation checklist — 1 pending",who:"HR",due:"Apr 28"}]},
 ];
 function renderComp(){document.getElementById("comp-body").innerHTML=compData.map(sec=>`<div style="margin-bottom:18px"><div class="sec-t">${sec.cat}<span>${sec.score}</span></div>${sec.items.map(item=>`<div class="row"><div class="ck ${item.s}">${item.s==="ok"?"&#10003;":item.s==="err"?"!":"~"}</div><div style="flex:1;font-size:12px">${item.l}</div><div style="font-size:11px;color:var(--text-tertiary);min-width:100px;text-align:right">${item.who}</div><div style="font-size:11px;min-width:65px;text-align:right;${item.due==="Overdue"||item.due==="Expired"?"color:var(--text-danger)":item.due==="Complete"||item.due==="Current"||item.due==="Done"||item.due==="Filed"?"color:var(--text-success)":"color:var(--text-warning)"}">${item.due}</div></div>`).join("")}</div>`).join("");}
-
-});
 </script>
 </body>
 </html>
