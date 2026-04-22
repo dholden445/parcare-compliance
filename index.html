@@ -157,6 +157,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
   <div class="ni" data-nav="tasks"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h7M3 12h5"/><circle cx="13" cy="11" r="2.5"/><path d="M13 9.5v1.5l1 1"/></svg>Tasks</div>
   <div class="ni" data-nav="site"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="12" height="8" rx="1"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>Site operations</div>
   <div class="ni" data-nav="docs"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1h6l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z"/><path d="M10 1v3h3"/></svg>Documents</div>
+  <div class="ni" data-nav="forms"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h12v12H2z"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>Forms &amp; P&amp;Ps</div>
   <div class="ni" data-nav="comp"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 3 3 .5-2.2 2.1.5 3.4L8 8.5l-3.3 1.5.5-3.4L3 4.5 6 4z"/></svg>Compliance tracker</div>
   <div style="flex:1"></div>
   <div class="nl">Account</div>
@@ -355,6 +356,61 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
   </div>
 </div>
 
+<div class="pg" id="pg-forms">
+  <div class="tbar">
+    <input type="text" placeholder="Search forms and policies..." id="forms-search-input">
+    <select id="forms-cat-filter" style="font-size:12px;padding:5px 8px;border:0.5px solid var(--border-med);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+      <option value="">All categories</option>
+      <option>Clinical Policies</option>
+      <option>Administrative Policies</option>
+      <option>HR Policies</option>
+      <option>Patient Forms</option>
+      <option>Staff Forms</option>
+      <option>Compliance Forms</option>
+      <option>Site Operations Forms</option>
+    </select>
+    <button class="btn pri" data-action="open-form-upload-modal">Upload form / policy</button>
+  </div>
+
+  <div id="form-upload-modal" class="modal-bg">
+    <div class="modal">
+      <div class="modal-t">Upload form or policy</div>
+      <div class="fl"><label>Document name</label><input type="text" id="fu-name" placeholder="e.g. Patient Intake Form"></div>
+      <div class="fl"><label>Category</label>
+        <select id="fu-cat">
+          <option>Clinical Policies</option>
+          <option>Administrative Policies</option>
+          <option>HR Policies</option>
+          <option>Patient Forms</option>
+          <option>Staff Forms</option>
+          <option>Compliance Forms</option>
+          <option>Site Operations Forms</option>
+        </select>
+      </div>
+      <div class="fl"><label>Version / revision date</label><input type="text" id="fu-ver" placeholder="e.g. v1.0 - April 2026"></div>
+      <div class="fl"><label>Approved by</label><input type="text" id="fu-approver" placeholder="e.g. Medical Director"></div>
+      <div class="fl"><label>Review frequency</label>
+        <select id="fu-freq">
+          <option>Annual</option><option>Biennial (every 2 years)</option>
+          <option>Quarterly</option><option>As needed</option>
+        </select>
+      </div>
+      <div class="fl"><label>Notes</label><textarea id="fu-notes" placeholder="Optional description..."></textarea></div>
+      <div class="fa">
+        <button class="btn" data-action="close-form-upload-modal">Cancel</button>
+        <button class="btn pri" data-action="submit-form-upload">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="folder-panel">
+    <div class="folder-sb" id="forms-folder-sb"></div>
+    <div class="folder-main">
+      <div id="forms-content"></div>
+    </div>
+  </div>
+</div>
+
 <div class="pg" id="pg-comp">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div style="font-size:12px;color:var(--text-secondary)">Article 28 NYS DOH &middot; HRSA &middot; HIPAA &mdash; full compliance checklist</div>
@@ -369,7 +425,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fo
 (function() {
 
 // ── Core nav ────────────────────────────────────────────────────────────────
-var PAGES = {dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",comp:"Compliance tracker"};
+var PAGES = {dash:"Dashboard",employees:"Employees",depts:"Departments",lms:"Training library",training:"Training tracker",tasks:"Tasks & assignments",site:"Site operations",docs:"Documents",forms:"Forms & Policies and Procedures",comp:"Compliance tracker"};
 
 function nav(id) {
   document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('on'); });
@@ -386,6 +442,7 @@ function nav(id) {
   if (id === 'tasks') renderTasks();
   if (id === 'site') { renderDrillGrid(); renderSiteAll(); }
   if (id === 'docs') renderDocs();
+  if (id === 'forms') renderForms();
   if (id === 'comp') renderComp();
 }
 
@@ -619,6 +676,145 @@ var compData=[
   {cat:"Annual trainings - all staff",score:"Varies",items:[{s:"warn",l:"HIPAA - 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Active Shooter - 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Infection Control / OSHA - 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Workplace Violence - 3 staff incomplete",who:"All staff",due:"Annual"},{s:"ok",l:"Emergency Preparedness - 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Patient Rights / Cultural Competency - 100% complete",who:"All staff",due:"Done"},{s:"ok",l:"Human Trafficking - 100% complete",who:"All staff",due:"Done"},{s:"warn",l:"Sexual Harassment - 2 staff incomplete",who:"All staff",due:"Annual"},{s:"warn",l:"Fraud, Waste & Abuse - 1 incomplete",who:"All staff",due:"Annual"}]},
   {cat:"HR & credentialing",score:"2/4",items:[{s:"ok",l:"All provider licenses current - verified in Modio",who:"HR / Credentialing",due:"Current"},{s:"ok",l:"OIG/SAM exclusion monitoring - monthly",who:"Credentialing",due:"Apr 21"},{s:"warn",l:"Re-credentialing - 2 providers due",who:"HR / Med Director",due:"Apr 25"},{s:"warn",l:"New staff orientation checklist - 1 pending",who:"HR",due:"Apr 28"}]},
 ];
+var formsData = [
+  // Clinical Policies
+  {id:"f1",name:"CLIN-001 Credentialing & Privileging Policy",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"Medical Director",freq:"Biennial",status:"Current",linked:"CLIN-001 Credentialing & Privileging Policy"},
+  {id:"f2",name:"CLIN-002 Scope of Services & Accessible Hours",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"CEO",freq:"Annual",status:"Current",linked:""},
+  {id:"f3",name:"CLIN-003 After-Hours & Emergency Coverage",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"Medical Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f4",name:"CLIN-004 Language Access & Cultural Competency",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"COO",freq:"Annual",status:"Current",linked:""},
+  {id:"f5",name:"CLIN-005 Referral Tracking Policy",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"Medical Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f6",name:"CLIN-006 QA/QI Program Policy",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"Medical Director",freq:"Annual",status:"Review due",linked:""},
+  {id:"f7",name:"PM-01 Trigger Point & Regenerative Modalities Protocol",cat:"Clinical Policies",version:"v1.0 - Apr 2026",approver:"Medical Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f8",name:"Infection Control Policy",cat:"Clinical Policies",version:"v1.0 - Jan 2026",approver:"Medical Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f9",name:"HIPAA Privacy & Security Policy",cat:"Clinical Policies",version:"v2.0 - Jan 2026",approver:"Compliance Officer",freq:"Annual",status:"Current",linked:""},
+  // Administrative Policies
+  {id:"f10",name:"Patient Rights & Responsibilities Policy",cat:"Administrative Policies",version:"v1.0 - Jan 2026",approver:"CEO",freq:"Annual",status:"Current",linked:""},
+  {id:"f11",name:"Sliding Fee Discount Program Policy",cat:"Administrative Policies",version:"v1.0 - Jan 2026",approver:"Board of Directors",freq:"Annual",status:"Review due",linked:""},
+  {id:"f12",name:"Grievance & Complaint Policy",cat:"Administrative Policies",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"Annual",status:"Current",linked:""},
+  {id:"f13",name:"No-Show & Cancellation Policy",cat:"Administrative Policies",version:"v1.0 - Jan 2026",approver:"COO",freq:"Annual",status:"Current",linked:""},
+  // HR Policies
+  {id:"f14",name:"Employee Code of Conduct",cat:"HR Policies",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f15",name:"Workplace Violence Prevention Policy",cat:"HR Policies",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f16",name:"Sexual Harassment Prevention Policy",cat:"HR Policies",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f17",name:"PTO & Leave of Absence Policy",cat:"HR Policies",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"Annual",status:"Current",linked:""},
+  {id:"f18",name:"Staff Schedule Change Request Policy",cat:"HR Policies",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"Annual",status:"Current",linked:""},
+  // Patient Forms
+  {id:"f19",name:"Patient Intake & Registration Form",cat:"Patient Forms",version:"v2.0 - Jan 2026",approver:"COO",freq:"As needed",status:"Current",linked:""},
+  {id:"f20",name:"HIPAA Notice of Privacy Practices (NPP)",cat:"Patient Forms",version:"v2.0 - Jan 2026",approver:"Compliance Officer",freq:"Annual",status:"Current",linked:""},
+  {id:"f21",name:"Healthix HIE Consent Form",cat:"Patient Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"As needed",status:"Current",linked:"Healthix HIE Staff Workflow Guide v2"},
+  {id:"f22",name:"Sliding Fee Scale Application Form",cat:"Patient Forms",version:"v1.0 - Jan 2026",approver:"COO",freq:"Annual",status:"Current",linked:""},
+  {id:"f23",name:"Patient Satisfaction Survey Form",cat:"Patient Forms",version:"v1.0 - Jan 2026",approver:"QI Coordinator",freq:"Quarterly",status:"Current",linked:"Patient Satisfaction Survey - Q1 2026"},
+  {id:"f24",name:"Patient Grievance / Complaint Form",cat:"Patient Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"As needed",status:"Current",linked:""},
+  // Staff Forms
+  {id:"f25",name:"Staff Onboarding Checklist",cat:"Staff Forms",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"As needed",status:"Current",linked:"Staff Onboarding Checklist"},
+  {id:"f26",name:"Training Completion Sign-In Sheet",cat:"Staff Forms",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"As needed",status:"Current",linked:""},
+  {id:"f27",name:"Fire Drill Participation Sign-In Sheet",cat:"Staff Forms",version:"v1.0 - Jan 2026",approver:"COO",freq:"Quarterly",status:"Current",linked:""},
+  {id:"f28",name:"Incident / Accident Report Form",cat:"Staff Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"As needed",status:"Current",linked:"Accident / Incident Report - Apr 5, 2026"},
+  {id:"f29",name:"Schedule Change Request Form",cat:"Staff Forms",version:"v1.0 - Jan 2026",approver:"HR Director",freq:"As needed",status:"Current",linked:""},
+  // Compliance Forms
+  {id:"f30",name:"Chart Documentation Audit Form",cat:"Compliance Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"Monthly",status:"Current",linked:"Chart Audit Form - April 2026"},
+  {id:"f31",name:"Billing & Coding Audit Form",cat:"Compliance Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"Monthly",status:"Current",linked:"Billing Audit Log - April 2026"},
+  {id:"f32",name:"Sliding Fee Scale Compliance Audit Form",cat:"Compliance Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"Monthly",status:"Current",linked:""},
+  {id:"f33",name:"Front-Desk Compliance Checklist",cat:"Compliance Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"Monthly",status:"Current",linked:""},
+  {id:"f34",name:"HIPAA Incident Report Form",cat:"Compliance Forms",version:"v1.0 - Jan 2026",approver:"Compliance Officer",freq:"As needed",status:"Current",linked:""},
+  // Site Operations Forms
+  {id:"f35",name:"QC Log Template",cat:"Site Operations Forms",version:"v1.0 - Jan 2026",approver:"Medical Director",freq:"Monthly",status:"Current",linked:"QC Log - Bay Parkway - April 2026"},
+  {id:"f36",name:"Medication & Supply Expiration Log",cat:"Site Operations Forms",version:"v1.0 - Jan 2026",approver:"Medical Director",freq:"Monthly",status:"Current",linked:"Medication & Supply Log - Bay Parkway"},
+  {id:"f37",name:"AED Inspection Checklist",cat:"Site Operations Forms",version:"v1.0 - Jan 2026",approver:"COO",freq:"Monthly",status:"Current",linked:""},
+  {id:"f38",name:"Fire Extinguisher Inspection Log",cat:"Site Operations Forms",version:"v1.0 - Jan 2026",approver:"COO",freq:"Annual",status:"Current",linked:""},
+  {id:"f39",name:"Daily Opening & Closing Checklist",cat:"Site Operations Forms",version:"v1.0 - Jan 2026",approver:"COO",freq:"As needed",status:"Current",linked:""},
+];
+
+var formsSearch = "", formsCatFilter = "";
+var FORM_CATS = ["Clinical Policies","Administrative Policies","HR Policies","Patient Forms","Staff Forms","Compliance Forms","Site Operations Forms"];
+var FORM_CAT_COLORS = {"Clinical Policies":"#0C447C","Administrative Policies":"#26215C","HR Policies":"#791F1F","Patient Forms":"#27500A","Staff Forms":"#633806","Compliance Forms":"#A32D2D","Site Operations Forms":"#3B6D11"};
+
+function renderForms() {
+  // Sidebar
+  var sb = document.getElementById("forms-folder-sb");
+  var total = formsData.length;
+  sb.innerHTML = '<div class="sec-t" style="margin-bottom:8px">Categories</div>' +
+    '<div class="folder-row' + (!formsCatFilter ? " active" : "") + '" data-formcat=""><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">All</span><span style="font-size:10px;color:var(--text-tertiary)">' + total + '</span></div>' +
+    FORM_CATS.map(function(cat) {
+      var cnt = formsData.filter(function(f) { return f.cat === cat; }).length;
+      var isA = formsCatFilter === cat;
+      var col = FORM_CAT_COLORS[cat] || "#185FA5";
+      return '<div class="folder-row' + (isA ? " active" : "") + '" data-formcat="' + cat + '"><svg class="folder-ico" viewBox="0 0 16 16" fill="none" stroke="' + (isA ? "currentColor" : col) + '" stroke-width="1.2"><path d="M2 4h4l2 2h6a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg><span style="flex:1">' + cat + '</span><span style="font-size:10px;color:var(--text-tertiary)">' + cnt + '</span></div>';
+    }).join("");
+
+  // Filter data
+  var shown = formsData.filter(function(f) {
+    var q = formsSearch.toLowerCase();
+    var cm = !formsCatFilter || f.cat === formsCatFilter;
+    return cm && (!q || f.name.toLowerCase().includes(q) || f.cat.toLowerCase().includes(q));
+  });
+
+  // Group by category if showing all
+  var fc = document.getElementById("forms-content");
+  if (!formsCatFilter) {
+    var grouped = {};
+    shown.forEach(function(f) {
+      if (!grouped[f.cat]) grouped[f.cat] = [];
+      grouped[f.cat].push(f);
+    });
+    fc.innerHTML = FORM_CATS.filter(function(c) { return grouped[c] && grouped[c].length; }).map(function(cat) {
+      return '<div style="margin-bottom:20px">' +
+        '<div class="sec-t">' + cat + '<span>' + (grouped[cat]||[]).length + ' items</span></div>' +
+        buildFormsTable(grouped[cat] || []) +
+        '</div>';
+    }).join("");
+  } else {
+    fc.innerHTML = buildFormsTable(shown);
+  }
+  document.getElementById("forms-cat-filter").value = formsCatFilter;
+}
+
+function buildFormsTable(rows) {
+  if (!rows.length) return '<div style="font-size:12px;color:var(--text-tertiary);padding:12px">No items found.</div>';
+  return '<div class="card"><table class="tbl" style="table-layout:fixed;width:100%">' +
+    '<thead><tr>' +
+    '<th style="width:35%">Form / Policy name</th>' +
+    '<th style="width:16%">Category</th>' +
+    '<th style="width:14%">Version</th>' +
+    '<th style="width:12%">Approved by</th>' +
+    '<th style="width:9%">Review</th>' +
+    '<th style="width:8%">Status</th>' +
+    '<th style="width:6%">Linked doc</th>' +
+    '</tr></thead>' +
+    '<tbody>' +
+    rows.map(function(f) {
+      var sc = f.status === "Current" ? "color:var(--text-success)" : f.status === "Review due" ? "color:var(--text-danger)" : "color:var(--text-warning)";
+      var linked = f.linked ? '<a style="color:var(--text-info);cursor:pointer;font-size:11px" data-viewform="' + f.id + '">View</a>' : '<span style="color:var(--text-tertiary);font-size:11px">—</span>';
+      return '<tr>' +
+        '<td style="font-weight:500;overflow:hidden;text-overflow:ellipsis">' + f.name + '</td>' +
+        '<td style="color:var(--text-secondary);font-size:11px;overflow:hidden;text-overflow:ellipsis">' + f.cat + '</td>' +
+        '<td style="color:var(--text-tertiary);font-size:11px;overflow:hidden;text-overflow:ellipsis">' + f.version + '</td>' +
+        '<td style="color:var(--text-tertiary);font-size:11px;overflow:hidden;text-overflow:ellipsis">' + f.approver + '</td>' +
+        '<td style="color:var(--text-tertiary);font-size:11px">' + f.freq + '</td>' +
+        '<td style="' + sc + ';font-size:11px">' + f.status + '</td>' +
+        '<td>' + linked + '</td>' +
+        '</tr>';
+    }).join("") +
+    '</tbody></table></div>';
+}
+
+function addFormEntry() {
+  var name = document.getElementById("fu-name").value;
+  if (!name) return;
+  formsData.unshift({
+    id: "f" + Date.now(),
+    name: name,
+    cat: document.getElementById("fu-cat").value,
+    version: document.getElementById("fu-ver").value || "v1.0",
+    approver: document.getElementById("fu-approver").value || "",
+    freq: document.getElementById("fu-freq").value,
+    status: "Current",
+    linked: ""
+  });
+  closeM("form-upload-modal");
+  renderForms();
+}
+
 function renderComp(){
   document.getElementById("comp-body").innerHTML=compData.map(function(sec){
     return '<div style="margin-bottom:18px"><div class="sec-t">'+sec.cat+'<span>'+sec.score+'</span></div>'+sec.items.map(function(item){
@@ -636,6 +832,10 @@ document.addEventListener("click", function(e) {
 
     // Nav items
     if (el.dataset && el.dataset.nav) { nav(el.dataset.nav); return; }
+    // Forms category filter
+    if (el.dataset && el.dataset.formcat !== undefined && el.classList.contains("folder-row")) { formsCatFilter = el.dataset.formcat; renderForms(); return; }
+    // View linked form doc
+    if (el.dataset && el.dataset.viewform) { var fd=formsData.find(function(x){return x.id===el.dataset.viewform;}); if(fd&&fd.linked)alert("Linked document: "+fd.linked); return; }
     // Action buttons
     if (el.dataset && el.dataset.action) {
       var a = el.dataset.action;
@@ -647,6 +847,9 @@ document.addEventListener("click", function(e) {
       if (a === "open-task-modal") { openM("task-modal"); return; }
       if (a === "close-task-modal") { closeM("task-modal"); return; }
       if (a === "create-task") { createTask(); return; }
+      if (a === "open-form-upload-modal") { openM("form-upload-modal"); return; }
+      if (a === "close-form-upload-modal") { closeM("form-upload-modal"); return; }
+      if (a === "submit-form-upload") { addFormEntry(); return; }
     }
     // Site tabs
     if (el.dataset && el.dataset.site) { switchSite(el.dataset.site); return; }
@@ -680,11 +883,13 @@ document.addEventListener("input", function(e) {
   if (e.target.id === "emp-search") { empF = e.target.value; renderEmp(); }
   if (e.target.id === "tr-staff-search") { trFilter = e.target.value; renderTraining(); }
   if (e.target.id === "doc-search-input") { docSearch = e.target.value; renderDocs(); }
+  if (e.target.id === "forms-search-input") { formsSearch = e.target.value; renderForms(); }
 });
 document.addEventListener("change", function(e) {
   if (e.target.id === "emp-dept-filter") { empDF = e.target.value; renderEmp(); }
   if (e.target.id === "tr-col-filter") { trColF = e.target.value; renderTraining(); }
   if (e.target.id === "doc-folder-select") { docFF = e.target.value; renderDocs(); }
+  if (e.target.id === "forms-cat-filter") { formsCatFilter = e.target.value; renderForms(); }
 });
 
 })();
