@@ -25,7 +25,7 @@ const NAV = [
   { id: 'training', label: 'Training tracker', icon: 'M4 8l3 3 5-5M1 1h14v14H1z' },
   { section: 'Compliance' },
   { id: 'tasks', label: 'Tasks', icon: 'M3 4h10M3 8h7M3 12h5M13 9a2.5 2.5 0 100 5 2.5 2.5 0 000-5z' },
-  { id: 'site', label: 'Site operations', icon: 'M2 7h12v8H2zM5 7V5a3 3 0 016 0v2' },
+  { id: 'site', label: 'Site trainings & compliance', icon: 'M2 7h12v8H2zM5 7V5a3 3 0 016 0v2' },
   { id: 'comp', label: 'Compliance tracker', icon: 'M4 8l3 3 5-5M2 2h12v12H2z' },
   { section: 'Documents' },
   { id: 'docs', label: 'Documents', icon: 'M4 1h6l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1zM10 1v3h3' },
@@ -36,7 +36,7 @@ const NAV = [
 ];
 
 const PAGES = { dash:Dashboard, employees:Employees, depts:Departments, lms:TrainingLibrary, training:TrainingTracker, tasks:Tasks, site:SiteOperations, docs:Documents, policies:Policies, forms:Forms, contracts:Contracts, company:CompanyInfo, comp:Compliance };
-const TITLES = { dash:'Dashboard', employees:'Employees', depts:'Departments', lms:'Training library', training:'Training tracker', tasks:'Tasks & assignments', site:'Site operations', docs:'Documents', policies:'Policies & Procedures', forms:'Forms', contracts:'Contracts & Agreements', company:'Company information', comp:'Compliance tracker' };
+const TITLES = { dash:'Dashboard', employees:'Employees', depts:'Departments', lms:'Training library', training:'Training tracker', tasks:'Tasks & assignments', site:'Site trainings & compliance', docs:'Documents', policies:'Policies & Procedures', forms:'Forms', contracts:'Contracts & Agreements', company:'Company information', comp:'Compliance tracker' };
 
 export default function App() {
   const [page, setPage] = useState('dash');
